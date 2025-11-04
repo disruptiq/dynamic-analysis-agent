@@ -1,0 +1,22 @@
+2025-11-04 23:43:01,967 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-04 23:43:01,968 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app
+2025-11-04 23:43:01,969 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-04 23:43:05,677 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-04 23:43:05,708 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-04 23:43:08,331 - dynamic_analysis_agent - INFO - Scan completed. Found 6 vulnerabilities across 0 tools.
+2025-11-04 23:43:08,332 - dynamic_analysis_agent - ERROR - Error exporting HTML: 'charmap' codec can't encode character '\u2713' in position 1392: character maps to <undefined>
+2025-11-04 23:43:20,839 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-04 23:43:20,841 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app
+2025-11-04 23:43:20,845 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-04 23:43:25,628 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-04 23:43:25,679 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-04 23:43:28,881 - dynamic_analysis_agent - INFO - Scan completed. Found 6 vulnerabilities across 0 tools.
+2025-11-04 23:43:28,884 - dynamic_analysis_agent - INFO - Results exported to test_results.json
+2025-11-04 23:44:00,246 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-04 23:44:00,247 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app
+2025-11-04 23:44:00,247 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-04 23:44:02,697 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-04 23:44:02,725 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-04 23:44:02,726 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-04 23:44:04,796 - dynamic_analysis_agent - INFO - Scan completed. Found 52 vulnerabilities across 0 tools.
+2025-11-04 23:44:04,802 - dynamic_analysis_agent - INFO - Results exported to test_results_improved.json
