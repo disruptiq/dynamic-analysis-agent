@@ -9,7 +9,7 @@ from typing import Dict, Any, Optional
 import uuid
 
 from .docker_manager import run_docker_container, cleanup_container
-from .vulnerability_scanner import test_vulnerabilities
+from .vulnerability_scanner_main import test_vulnerabilities
 from .tools import (
     start_zap, perform_zap_scan, stop_zap,
     perform_nmap_scan, perform_nikto_scan

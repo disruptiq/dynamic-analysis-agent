@@ -4,3 +4,4 @@ PyYAML==6.0
 tqdm==4.66.1
 Flask==2.3.3
 Werkzeug==2.3.7
+reportlab==4.0.7

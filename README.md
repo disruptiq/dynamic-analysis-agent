@@ -6,11 +6,16 @@ A cybersecurity tool for performing dynamic analysis tests on applications runni
 
 - Automated Docker container setup and management
 - Basic connectivity testing
-- Comprehensive vulnerability scanning:
-  - SQL Injection detection with multiple payload types
-  - Command Injection testing
-  - Cross-Site Scripting (XSS) detection
-  - Directory Traversal prevention
+- **Comprehensive vulnerability scanning (20+ types)**:
+  - **Injection Attacks**: SQL, Command, LDAP, XPath, NoSQL, GraphQL
+  - **Template Injection**: SSTI, Template injection detection
+  - **Authentication & Authorization**: Broken auth, session management, access control
+  - **Data Exposure**: Sensitive data detection, information disclosure
+  - **Input Validation**: XSS, CSRF, host header injection, HPP
+  - **Protocol Attacks**: XXE, SSRF, HTTP request smuggling
+  - **Application Logic**: Race conditions, buffer overflows, format strings
+  - **Configuration Issues**: Security misconfigurations, known vulnerabilities
+  - **File Handling**: Directory traversal, file upload vulnerabilities
 - Integration with industry-standard security tools:
   - OWASP ZAP for comprehensive web application scanning
   - Nmap for port scanning and service enumeration
@@ -18,7 +23,10 @@ A cybersecurity tool for performing dynamic analysis tests on applications runni
 - Flexible reporting:
   - JSON export for programmatic processing
   - HTML reports with charts and detailed analysis
+  - PDF reports with professional formatting
+  - CSV export for spreadsheet analysis
   - Auto-generated timestamps and organized output
+- Advanced configuration and extensibility
 
 ## Installation
 
@@ -230,23 +238,53 @@ The agent will:
 
 ```
 dynamic-analysis-agent/
-├── main.py                 # Entry point script
-├── api_server.py          # Dedicated API server
-├── requirements.txt        # Python dependencies
-├── config.yaml             # Configuration file
-├── src/                    # Source modules
+├── main.py                         # Entry point script (CLI + API modes)
+├── api_server.py                  # Dedicated API server
+├── requirements.txt                # Python dependencies
+├── config.yaml                     # Configuration file
+├── test/                           # Test applications and environments
+│   ├── vulnerable_app.py          # Intentionally vulnerable Flask app
+│   ├── Dockerfile                 # Test app containerization
+│   ├── docker-compose.yml         # Test environment orchestration
+│   └── README.md                  # Test setup instructions
+├── src/                           # Source modules
 │   ├── __init__.py
-│   ├── api.py              # REST API implementation
-│   ├── config.py           # Configuration management
-│   ├── docker_manager.py   # Docker container management
-│   ├── logger.py           # Logging system
-│   ├── progress.py         # Progress tracking
-│   ├── vulnerability_scanner.py  # Basic vulnerability tests
-│   └── tools/              # External tool integrations
+│   ├── api.py                     # REST API implementation
+│   ├── config.py                  # Configuration management
+│   ├── docker_manager.py          # Docker container management
+│   ├── logger.py                  # Logging system
+│   ├── progress.py                # Progress tracking
+│   ├── vulnerability_scanner_main.py  # Vulnerability test orchestrator
+│   ├── tools/                     # External tool integrations
+│   │   ├── __init__.py
+│   │   ├── zap_scanner.py         # OWASP ZAP integration
+│   │   ├── nmap_scanner.py        # Nmap integration
+│   │   └── nikto_scanner.py       # Nikto integration
+│   └── vulnerability_scanner/     # Individual vulnerability scanners
 │       ├── __init__.py
-│       ├── zap_scanner.py  # OWASP ZAP integration
-│       ├── nmap_scanner.py # Nmap integration
-│       └── nikto_scanner.py # Nikto integration
+│       ├── sql_injection.py       # SQL injection tests
+│       ├── command_injection.py   # Command injection tests
+│       ├── xxe.py                 # XML external entity tests
+│       ├── ssrf.py                # Server-side request forgery
+│       ├── csrf.py                # Cross-site request forgery
+│       ├── broken_auth.py         # Broken authentication
+│       ├── sensitive_data.py      # Sensitive data exposure
+│       ├── broken_access.py       # Broken access control
+│       ├── security_misconfig.py  # Security misconfigurations
+│       ├── known_vulns.py         # Known vulnerabilities
+│       ├── insufficient_logging.py # Logging issues
+│       ├── race_conditions.py     # Race condition tests
+│       ├── buffer_overflow.py     # Buffer overflow tests
+│       ├── format_string.py       # Format string vulnerabilities
+│       ├── ldap_injection.py      # LDAP injection
+│       ├── xpath_injection.py     # XPath injection
+│       ├── nosql_injection.py     # NoSQL injection
+│       ├── graphql_injection.py   # GraphQL injection
+│       ├── template_injection.py  # Template injection
+│       ├── ssti.py                # Server-side template injection
+│       ├── hpp.py                 # HTTP parameter pollution
+│       ├── host_header.py         # Host header injection
+│       └── http_smuggling.py      # HTTP request smuggling
 └── README.md
 ```
 
