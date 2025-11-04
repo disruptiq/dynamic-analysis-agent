@@ -1,0 +1,60 @@
+2025-11-05 00:28:38,889 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 00:28:38,890 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 00:28:38,891 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 00:28:43,368 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 00:28:43,761 - dynamic_analysis_agent - INFO - Results exported to test_results_new.json
+2025-11-05 00:29:17,819 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 00:29:17,820 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 00:29:17,821 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 00:29:22,875 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 00:29:22,919 - dynamic_analysis_agent - INFO - Results exported to test_results_new.json
+2025-11-05 00:31:36,817 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 00:31:36,818 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 00:31:36,819 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 00:31:42,921 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 00:31:42,923 - dynamic_analysis_agent - INFO - Waiting for application to start...
+2025-11-05 00:31:48,063 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-05 00:31:48,064 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-05 00:33:16,291 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 00:33:16,292 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 00:33:16,293 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 00:33:21,946 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 00:33:21,947 - dynamic_analysis_agent - INFO - Waiting for application to start...
+2025-11-05 00:33:26,986 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-05 00:33:26,987 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-05 00:35:09,687 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
+2025-11-05 00:35:09,720 - dynamic_analysis_agent - INFO - Results exported to first-test.json
+2025-11-05 00:37:49,570 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 00:37:49,570 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 00:37:49,571 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 00:37:51,580 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 00:37:51,582 - dynamic_analysis_agent - INFO - Waiting for application to start...
+2025-11-05 00:37:56,632 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-05 00:37:56,634 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-05 00:37:56,636 - dynamic_analysis_agent - INFO - Starting vulnerability assessment on http://localhost:5000
+2025-11-05 00:39:43,485 - dynamic_analysis_agent - INFO - Vulnerability assessment completed: found 413 potential issues
+2025-11-05 00:39:43,487 - dynamic_analysis_agent - INFO - Starting Nmap network scan
+2025-11-05 00:39:43,502 - dynamic_analysis_agent - INFO - Nmap scan skipped or not available
+2025-11-05 00:39:43,502 - dynamic_analysis_agent - INFO - Starting Nikto web server scan
+2025-11-05 00:39:43,517 - dynamic_analysis_agent - INFO - Nikto scan skipped or not available
+2025-11-05 00:39:43,518 - dynamic_analysis_agent - INFO - Starting OWASP ZAP security scan
+2025-11-05 00:39:43,518 - dynamic_analysis_agent - INFO - ZAP scan skipped or not available
+2025-11-05 00:39:43,520 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
+2025-11-05 00:39:43,542 - dynamic_analysis_agent - INFO - Results exported to test_results_new.json
+2025-11-05 00:40:21,936 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 00:40:21,937 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 00:40:21,937 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 00:40:24,054 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 00:40:24,055 - dynamic_analysis_agent - INFO - Waiting for application to start...
+2025-11-05 00:40:29,078 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-05 00:40:29,080 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-05 00:40:29,082 - dynamic_analysis_agent - INFO - Starting vulnerability assessment on http://localhost:5000
+2025-11-05 00:42:07,153 - dynamic_analysis_agent - INFO - Vulnerability assessment completed: found 413 potential issues
+2025-11-05 00:42:07,154 - dynamic_analysis_agent - INFO - Starting Nmap network scan
+2025-11-05 00:42:07,175 - dynamic_analysis_agent - INFO - Nmap scan skipped or not available
+2025-11-05 00:42:07,176 - dynamic_analysis_agent - INFO - Starting Nikto web server scan
+2025-11-05 00:42:07,193 - dynamic_analysis_agent - INFO - Nikto scan skipped or not available
+2025-11-05 00:42:07,194 - dynamic_analysis_agent - INFO - Starting OWASP ZAP security scan
+2025-11-05 00:42:07,195 - dynamic_analysis_agent - INFO - ZAP scan skipped or not available
+2025-11-05 00:42:07,199 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
+2025-11-05 00:42:07,218 - dynamic_analysis_agent - INFO - Results exported to first-test.json

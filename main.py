@@ -60,6 +60,10 @@ def perform_basic_tests(base_url, port, zap_port=8090):
     logger.info(f"Starting dynamic analysis on {base_url}")
     progress.update(description="Checking connectivity")
 
+    # Wait for application to start up
+    logger.info("Waiting for application to start...")
+    time.sleep(5)
+
     # Basic connectivity test
     connectivity_ok = False
     try:
@@ -82,29 +86,43 @@ def perform_basic_tests(base_url, port, zap_port=8090):
 
     # Test for common vulnerabilities
     progress.update(description="Testing vulnerabilities")
+    logger.info(f"Starting vulnerability assessment on {base_url}")
     vulnerabilities = test_vulnerabilities(base_url)
+    logger.info(f"Vulnerability assessment completed: found {len(vulnerabilities)} potential issues")
     results["vulnerabilities"].extend(vulnerabilities)
     progress.update()
 
     # Perform Nmap scan
     progress.update(description="Running Nmap scan")
+    logger.info("Starting Nmap network scan")
     nmap_results = perform_nmap_scan("localhost", port)
     if nmap_results:
         results["tools"].append({"name": "nmap", "results": nmap_results})
+        logger.info("Nmap scan completed")
+    else:
+        logger.info("Nmap scan skipped or not available")
     progress.update()
 
     # Perform Nikto scan
     progress.update(description="Running Nikto scan")
+    logger.info("Starting Nikto web server scan")
     nikto_results = perform_nikto_scan(base_url)
     if nikto_results:
         results["tools"].append({"name": "nikto", "results": nikto_results})
+        logger.info("Nikto scan completed")
+    else:
+        logger.info("Nikto scan skipped or not available")
     progress.update()
 
     # Perform ZAP scan
     progress.update(description="Running OWASP ZAP scan")
+    logger.info("Starting OWASP ZAP security scan")
     zap_results = perform_zap_scan(base_url, zap_port)
     if zap_results:
         results["tools"].append({"name": "zap", "results": zap_results})
+        logger.info("ZAP scan completed")
+    else:
+        logger.info("ZAP scan skipped or not available")
     progress.update(description="Generating summary")
 
     # Generate summary
