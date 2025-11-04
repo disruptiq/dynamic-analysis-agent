@@ -1,5 +1,24 @@
 """
-Nikto integration for the Dynamic Analysis Agent.
+Nikto web server scanner integration for the Dynamic Analysis Agent.
+
+Nikto is an open-source web server scanner that performs comprehensive tests
+against web servers for multiple items, including over 6700 potentially dangerous
+files/programs, checks for outdated versions of over 1250 servers, and version
+specific problems on over 270 servers.
+
+This integration performs web server vulnerability scanning including:
+- Outdated software version detection
+- Potentially dangerous files and directories
+- Server configuration issues
+- Common web server vulnerabilities
+- Default or backup file detection
+
+Scans for:
+- Outdated web server software
+- Misconfigured servers and applications
+- Potentially dangerous CGI scripts
+- Default installation files
+- Known vulnerable server configurations
 """
 
 import subprocess

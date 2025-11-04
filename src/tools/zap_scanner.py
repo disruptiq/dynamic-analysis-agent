@@ -1,5 +1,22 @@
 """
-OWASP ZAP integration for the Dynamic Analysis Agent.
+OWASP ZAP (Zed Attack Proxy) integration for the Dynamic Analysis Agent.
+
+OWASP ZAP is a free, open-source web application security scanner. It is designed
+to be used by both those new to application security as well as professional penetration testers.
+
+This integration performs comprehensive dynamic application security testing (DAST) including:
+- Automated spidering and active scanning
+- Passive scanning for security vulnerabilities
+- Active scanning with attack vectors
+- API scanning capabilities
+- Authentication and session management testing
+
+Scans for vulnerabilities such as:
+- SQL Injection, XSS, CSRF, XXE, SSRF
+- Broken authentication and session management
+- Security misconfigurations
+- Sensitive data exposure
+- Broken access control
 """
 
 import subprocess

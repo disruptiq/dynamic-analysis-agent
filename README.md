@@ -1,12 +1,12 @@
 # Dynamic Analysis Agent
 
-A cybersecurity tool for performing dynamic analysis tests on applications running in sandboxed Docker containers.
+A cybersecurity tool for performing dynamic analysis tests on applications running in sandboxed Docker containers. This project focuses exclusively on dynamic scanning tools and runtime security testing.
 
 ## Features
 
 - Automated Docker container setup and management
 - Basic connectivity testing
-- **Comprehensive vulnerability scanning (20+ types)**:
+- **Comprehensive dynamic vulnerability scanning (20+ types)**:
   - **Injection Attacks**: SQL, Command, LDAP, XPath, NoSQL, GraphQL
   - **Template Injection**: SSTI, Template injection detection
   - **Authentication & Authorization**: Broken auth, session management, access control

@@ -1,5 +1,23 @@
 """
-Nmap integration for the Dynamic Analysis Agent.
+Nmap (Network Mapper) integration for the Dynamic Analysis Agent.
+
+Nmap is a free and open-source network discovery and security auditing utility.
+It uses raw IP packets to determine what hosts are available on the network,
+what services those hosts are offering, what operating systems they are running,
+and what type of packet filters/firewalls are in use.
+
+This integration performs network reconnaissance and port scanning including:
+- Host discovery and network mapping
+- Port scanning (TCP, UDP, SYN, etc.)
+- Service and version detection
+- OS fingerprinting
+- Vulnerability detection through NSE scripts
+
+Scans for:
+- Open ports and services
+- Operating system identification
+- Service versions and potential vulnerabilities
+- Network topology and host availability
 """
 
 import subprocess
