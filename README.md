@@ -30,15 +30,59 @@ A cybersecurity tool for performing dynamic analysis tests on applications runni
 
 ## Installation
 
-1. Ensure Docker is installed and running on your system.
-2. Install the following security tools (optional, but recommended for full functionality):
-   - [OWASP ZAP](https://www.zaproxy.org/download/) - Download and ensure `zap.sh` is in your PATH
-   - [Nmap](https://nmap.org/download.html) - Install via package manager or download
-   - [Nikto](https://github.com/sullo/nikto) - Install via package manager or download
-3. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 🚀 Quick Start with Docker (Recommended)
+
+The easiest way to get started is using Docker, which includes all tools pre-installed:
+
+```bash
+# Clone the repository
+git clone https://github.com/disruptiq/dynamic-analysis-agent.git
+cd dynamic-analysis-agent
+
+# Build and run with Docker Compose
+docker-compose up -d
+
+# Or build manually
+docker build -t dynamic-analysis-agent .
+docker run -p 5000:5000 dynamic-analysis-agent
+```
+
+### 🖥️ Native Installation
+
+#### Linux (Ubuntu/Debian)
+```bash
+chmod +x install-linux.sh
+./install-linux.sh
+```
+
+#### macOS
+```bash
+chmod +x install-macos.sh
+./install-macos.sh
+```
+
+#### Windows
+```powershell
+# Run as Administrator
+.\\install-windows.ps1
+```
+
+### 📦 Manual Installation
+
+1. **Install Python dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2. **Install security tools (optional, but recommended for full functionality):**
+    - [OWASP ZAP](https://www.zaproxy.org/download/) - Add `zap.sh` to your PATH
+    - [Nmap](https://nmap.org/download.html) - Via package manager (`apt`, `brew`, `choco`)
+    - [Nikto](https://github.com/sullo/nikto) - Via package manager or manual install
+    - [Metasploit](https://www.metasploit.com/download) - Framework installation
+    - [SQLMap](https://sqlmap.org/) - Via package manager or `pip install sqlmap`
+    - Other tools: FFUF, Nuclei, Gobuster, etc. via package managers
+
+**Note:** Tools are optional - the agent gracefully skips unavailable tools and continues with available functionality.
 
 ## Configuration
 
@@ -162,6 +206,24 @@ Health check endpoint.
 ```
 
 ## Usage
+
+### 🐳 Docker Usage (Recommended)
+
+```bash
+# Start the analysis agent
+docker-compose up -d dynamic-analysis-agent
+
+# Scan a Docker image
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \\
+    dynamic-analysis-agent python main.py --image your-app:latest
+
+# Use the REST API
+curl -X POST http://localhost:5000/api/v1/scans \\
+    -H "Content-Type: application/json" \\
+    -d '{"image": "your-app:latest", "port": 8080}'
+```
+
+### 🖥️ Native Usage
 
 Run the analysis agent with a Docker image:
 
