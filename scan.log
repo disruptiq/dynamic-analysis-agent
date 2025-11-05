@@ -58,3 +58,71 @@
 2025-11-05 00:42:07,195 - dynamic_analysis_agent - INFO - ZAP scan skipped or not available
 2025-11-05 00:42:07,199 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
 2025-11-05 00:42:07,218 - dynamic_analysis_agent - INFO - Results exported to first-test.json
+2025-11-05 10:28:03,957 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 10:28:03,958 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 10:28:03,959 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 10:28:07,536 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 10:28:07,537 - dynamic_analysis_agent - INFO - Waiting for application to start...
+2025-11-05 10:28:12,575 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-05 10:28:12,576 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-05 10:28:12,579 - dynamic_analysis_agent - INFO - Starting vulnerability assessment on http://localhost:5000
+2025-11-05 10:29:53,381 - dynamic_analysis_agent - INFO - Vulnerability assessment completed: found 413 potential issues
+2025-11-05 10:29:53,383 - dynamic_analysis_agent - INFO - Starting Nmap network scan
+2025-11-05 10:29:53,399 - dynamic_analysis_agent - INFO - Nmap scan skipped or not available
+2025-11-05 10:29:53,400 - dynamic_analysis_agent - INFO - Starting Nikto web server scan
+2025-11-05 10:29:53,416 - dynamic_analysis_agent - INFO - Nikto scan skipped or not available
+2025-11-05 10:29:53,417 - dynamic_analysis_agent - INFO - Starting OWASP ZAP security scan
+2025-11-05 10:29:53,418 - dynamic_analysis_agent - INFO - ZAP scan skipped or not available
+2025-11-05 10:29:53,419 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
+2025-11-05 10:29:53,439 - dynamic_analysis_agent - INFO - Results exported to res.json
+2025-11-05 10:32:52,732 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 10:32:52,733 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 10:32:52,734 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 10:32:55,113 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 10:32:55,115 - dynamic_analysis_agent - INFO - Waiting for application to start...
+2025-11-05 10:33:00,178 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-05 10:33:00,180 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-05 10:33:00,181 - dynamic_analysis_agent - INFO - Starting vulnerability assessment on http://localhost:5000
+2025-11-05 10:34:49,902 - dynamic_analysis_agent - INFO - Vulnerability assessment completed: found 413 potential issues
+2025-11-05 10:34:49,904 - dynamic_analysis_agent - INFO - Starting Nmap network scan
+2025-11-05 10:34:49,921 - dynamic_analysis_agent - INFO - Nmap scan skipped or not available
+2025-11-05 10:34:49,922 - dynamic_analysis_agent - INFO - Starting Nikto web server scan
+2025-11-05 10:34:49,934 - dynamic_analysis_agent - INFO - Nikto scan skipped or not available
+2025-11-05 10:34:49,936 - dynamic_analysis_agent - INFO - Starting OWASP ZAP security scan
+2025-11-05 10:34:49,937 - dynamic_analysis_agent - INFO - ZAP scan skipped or not available
+2025-11-05 10:34:49,939 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
+2025-11-05 10:34:49,973 - dynamic_analysis_agent - INFO - Results exported to output.json
+2025-11-05 10:36:33,414 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 10:36:33,415 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 10:36:33,415 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 10:36:36,186 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 10:36:36,188 - dynamic_analysis_agent - INFO - Waiting for application to start...
+2025-11-05 10:36:41,224 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-05 10:36:41,227 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-05 10:36:41,230 - dynamic_analysis_agent - INFO - Starting vulnerability assessment on http://localhost:5000
+2025-11-05 10:38:28,706 - dynamic_analysis_agent - INFO - Vulnerability assessment completed: found 413 potential issues
+2025-11-05 10:38:28,709 - dynamic_analysis_agent - INFO - Starting Nmap network scan
+2025-11-05 10:38:28,726 - dynamic_analysis_agent - INFO - Nmap scan skipped or not available
+2025-11-05 10:38:28,727 - dynamic_analysis_agent - INFO - Starting Nikto web server scan
+2025-11-05 10:38:28,742 - dynamic_analysis_agent - INFO - Nikto scan skipped or not available
+2025-11-05 10:38:28,743 - dynamic_analysis_agent - INFO - Starting OWASP ZAP security scan
+2025-11-05 10:38:28,744 - dynamic_analysis_agent - INFO - ZAP scan skipped or not available
+2025-11-05 10:38:28,746 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
+2025-11-05 10:38:28,780 - dynamic_analysis_agent - INFO - Results exported to output.json
+2025-11-05 10:42:45,787 - dynamic_analysis_agent - INFO - Dynamic Analysis Agent Starting...
+2025-11-05 10:42:45,788 - dynamic_analysis_agent - INFO - Target Image: test-vulnerable-app:latest
+2025-11-05 10:42:45,789 - dynamic_analysis_agent - INFO - Target URL: http://localhost:5000
+2025-11-05 10:42:48,146 - dynamic_analysis_agent - INFO - Starting dynamic analysis on http://localhost:5000
+2025-11-05 10:42:48,147 - dynamic_analysis_agent - INFO - Waiting for application to start...
+2025-11-05 10:42:53,168 - dynamic_analysis_agent - INFO - Basic connectivity: Status 200
+2025-11-05 10:42:53,170 - dynamic_analysis_agent - INFO - SUCCESS: Application is responding
+2025-11-05 10:42:53,172 - dynamic_analysis_agent - INFO - Starting vulnerability assessment on http://localhost:5000
+2025-11-05 10:44:39,300 - dynamic_analysis_agent - INFO - Vulnerability assessment completed: found 413 potential issues
+2025-11-05 10:44:39,302 - dynamic_analysis_agent - INFO - Starting Nmap network scan
+2025-11-05 10:44:39,326 - dynamic_analysis_agent - INFO - Nmap scan skipped or not available
+2025-11-05 10:44:39,327 - dynamic_analysis_agent - INFO - Starting Nikto web server scan
+2025-11-05 10:44:39,340 - dynamic_analysis_agent - INFO - Nikto scan skipped or not available
+2025-11-05 10:44:39,342 - dynamic_analysis_agent - INFO - Starting OWASP ZAP security scan
+2025-11-05 10:44:39,343 - dynamic_analysis_agent - INFO - ZAP scan skipped or not available
+2025-11-05 10:44:39,344 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
+2025-11-05 10:44:39,370 - dynamic_analysis_agent - INFO - Results exported to output.json

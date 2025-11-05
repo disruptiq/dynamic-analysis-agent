@@ -467,8 +467,8 @@ def main():
     )
     parser.add_argument(
         "--output-file",
-        default=None,
-        help="Output file path (default: auto-generated with timestamp)"
+        default="output.json",
+        help="Output file path (default: output.json)"
     )
     parser.add_argument(
         "--config",
