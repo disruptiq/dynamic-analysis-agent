@@ -18,6 +18,7 @@ from src.tests import perform_basic_tests
 from src.exporters import export_results
 from src.utils import cleanup
 from src.tools import start_zap, stop_zap
+from src.tool_checker import list_available_tools
 from src.config import config, Config
 from src.logger import logger, reload_logger
 
@@ -74,8 +75,18 @@ def main():
         default=5000,
         help="Port for API server (when using --api)"
     )
+    parser.add_argument(
+        "--list-tools",
+        action="store_true",
+        help="List all available security tools and exit"
+    )
 
     args = parser.parse_args()
+
+    # Handle list-tools option
+    if args.list_tools:
+        list_available_tools()
+        return
 
     # Handle configuration file creation
     if args.create_config:

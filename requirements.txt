@@ -1,6 +1,33 @@
+# Core web framework and HTTP client
 flask==2.3.3
 requests==2.31.0
+
+# Configuration and data handling
 pyyaml==6.0.1
 colorama==0.4.6
+
+# Report generation
 reportlab==4.0.4
-python-zipstream==1.1.4
+
+# Security tool integrations
+# python-owasp-zap-v2.4==0.0.20  # Optional: for ZAP integration
+
+# Additional utilities for comprehensive security testing
+beautifulsoup4>=4.12.0  # HTML/XML parsing
+lxml>=4.9.0  # XML/HTML processing
+selenium>=4.15.0  # Web browser automation (for advanced testing)
+urllib3>=2.0.0  # HTTP connection pooling
+chardet>=5.0.0  # Character encoding detection
+
+# Development and testing
+pytest>=7.0.0  # Testing framework
+pytest-cov>=4.0.0  # Coverage reporting
+
+# Optional: For advanced vulnerability scanning
+scapy>=2.5.0  # Packet manipulation (for network testing)
+paramiko>=3.3.0  # SSH client (for remote testing)
+cryptography>=41.0.0  # Cryptographic operations
+
+# Logging and monitoring enhancements
+structlog>=23.0.0  # Structured logging
+rich>=13.0.0  # Rich terminal UI
