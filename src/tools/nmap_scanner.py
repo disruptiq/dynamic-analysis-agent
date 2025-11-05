@@ -23,21 +23,28 @@ Scans for:
 import subprocess
 import time
 
-def perform_nmap_scan(host, port):
+def perform_nmap_scan(host, ports):
     """
     Perform Nmap port scan.
 
     Args:
-        host (str): Target host
-        port (int): Target port
+    host (str): Target host
+    ports (int or list): Target port(s) - single port or list of ports
 
     Returns:
-        dict: Scan results or None if failed
+    dict: Scan results or None if failed
     """
+    # Handle single port or list of ports
+    if isinstance(ports, int):
+        ports = [ports]
+    elif not isinstance(ports, list):
+        ports = [int(ports)]
+
+    port_str = ','.join(str(p) for p in ports)
     try:
-        print(f"\nRunning Nmap scan on {host}:{port}...")
+        print(f"\nRunning Nmap scan on {host}:{port_str}...")
         result = subprocess.run(
-            ['nmap', '-sV', '-p', str(port), host],
+            ['nmap', '-sV', '-p', port_str, host],
             capture_output=True,
             text=True,
             timeout=30

@@ -4,7 +4,10 @@ services:
   vulnerable-app:
     build: .
     ports:
-      - "5000:5000"
+      - "8080:8080"   # HTTP Flask App
+      - "8443:8443"   # HTTPS Flask App
+      - "9000:9000"   # TCP Server
+      - "3000:3000"   # Alternative HTTP Server
     volumes:
       - ./data:/app/data
     environment:

@@ -11,15 +11,19 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install cryptography for SSL certificate generation
+RUN pip install --no-cache-dir cryptography
+
 # Copy the application
 COPY vulnerable_app.py .
 
-# Create a test file for directory traversal testing
+# Create test files for directory traversal testing
 RUN echo "This is a test file for directory traversal testing." > test.txt
 RUN echo "Sensitive information: API_KEY=secret123" > config.txt
+RUN mkdir -p /tmp/test && echo "This is a file in a subdirectory." > /tmp/test/subfile.txt
 
-# Expose port
-EXPOSE 5000
+# Expose ports
+EXPOSE 8080 8443 9000 3000
 
 # Run the application
 CMD ["python", "vulnerable_app.py"]

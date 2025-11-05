@@ -31,10 +31,10 @@ def main():
         help="Docker image name to analyze (e.g., myapp:latest)"
     )
     parser.add_argument(
-        "--port",
-        type=int,
-        default=config.get("docker.default_port", 8080),
-        help=f"Port the application runs on (default: {config.get('docker.default_port', 8080)})"
+    "--port",
+    type=str,
+    default=str(config.get("docker.default_port", 8080)),
+    help=f"Port(s) the application runs on (comma-separated for multiple ports, default: {config.get('docker.default_port', 8080)})"
     )
 
     parser.add_argument(
@@ -101,27 +101,36 @@ def main():
         src.config.config = Config(args.config)
         reload_logger()  # Reload logger with new config
 
-    base_url = f"http://localhost:{args.port}"
+    # Parse ports (comma-separated)
+    try:
+        ports = [int(p.strip()) for p in args.port.split(',')]
+    except ValueError:
+        parser.error(f"Invalid port format: {args.port}. Use comma-separated integers.")
+
+    if not ports:
+        parser.error("At least one port must be specified.")
+
+    logger.info(f"Target Ports: {ports}")
 
     logger.info("Dynamic Analysis Agent Starting...")
     logger.info(f"Target Image: {args.image}")
-    logger.info(f"Target URL: {base_url}")
+    logger.info(f"Target Ports: {ports}")
     logger.debug(f"Configuration loaded from: {config.config_file}")
     logger.debug(f"Output format: {args.output_format}, Output file: {args.output_file}")
 
     # Start ZAP
     zap_process = start_zap()
 
-    # Run the container
-    if not run_docker_container(args.image, port=args.port):
+    # Run the container with all specified ports
+    if not run_docker_container(args.image, ports=ports):
         print("Failed to start container. Exiting.")
         stop_zap(zap_process)
         sys.exit(1)
 
     scan_results = None
     try:
-        # Perform tests
-        scan_results = perform_basic_tests(base_url, args.port, zap_port=8090)
+        # Perform tests on all ports
+        scan_results = perform_basic_tests(ports, zap_port=8090)
 
         # Export results
         export_results(scan_results, args.output_format, args.output_file)
