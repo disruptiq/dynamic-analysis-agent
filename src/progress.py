@@ -2,9 +2,11 @@
 Progress bar utilities for the Dynamic Analysis Agent.
 """
 
-from tqdm import tqdm
-import time
+import colorama
+from colorama import Fore, Style
 import threading
+
+colorama.init(autoreset=True)
 
 class ScanProgress:
     """Progress tracking for scan operations."""
@@ -13,30 +15,29 @@ class ScanProgress:
         self.total_steps = total_steps
         self.current_step = 0
         self.description = description
-        self.pbar = None
         self.lock = threading.Lock()
 
     def start(self):
         """Start the progress bar."""
-        self.pbar = tqdm(total=self.total_steps, desc=self.description, unit="step")
+        print(f"{Fore.CYAN}{self.description} started...{Style.RESET_ALL}")
 
     def update(self, steps=1, description=None):
         """Update progress bar."""
         with self.lock:
             self.current_step += steps
             if description:
-                self.pbar.set_description(description)
-            self.pbar.update(steps)
+                self.description = description
+            percentage = int((self.current_step / self.total_steps) * 100)
+            color = Fore.GREEN if percentage >= 100 else Fore.YELLOW
+            print(f"{color}{self.description}: {percentage}% complete{Style.RESET_ALL}")
 
     def set_description(self, description):
         """Set progress bar description."""
-        if self.pbar:
-            self.pbar.set_description(description)
+        self.description = description
 
     def finish(self):
         """Complete the progress bar."""
-        if self.pbar:
-            self.pbar.close()
+        print(f"{Fore.GREEN}{self.description} completed!{Style.RESET_ALL}")
 
 def with_progress(description="Processing"):
     """Decorator to add progress tracking to functions."""
