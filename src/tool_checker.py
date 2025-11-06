@@ -114,8 +114,8 @@ def check_tool_availability(tool_name):
     """
     tool_checks = {
         "ZAP (OWASP Zed Attack Proxy)": check_zap_available,
-        "Nmap": lambda: check_command_available("nmap"),
-        "Nikto": lambda: check_command_available("nikto"),
+        "Nmap": lambda: check_command_available("nmap", "-V"),
+        "Nikto": lambda: check_command_available("nikto", "-Version"),
         "Nessus": lambda: check_command_available("nessus"),
         "OpenVAS": lambda: check_command_available("openvas-start"),
         "Acunetix": lambda: check_command_available("acunetix"),
@@ -147,22 +147,23 @@ def check_tool_availability(tool_name):
     return False, "No availability check defined"
 
 
-def check_command_available(command):
+def check_command_available(command, version_flag="--version"):
     """
     Check if a command is available in PATH.
 
     Args:
         command (str): Command to check
+        version_flag (str): Flag to use for version check
 
     Returns:
         tuple: (is_available, status_message)
     """
     try:
-        # Use shorter timeout and simpler version check
-        result = subprocess.run([command, "--version"],
+        # Use longer timeout for version check
+        result = subprocess.run([command, version_flag],
                               capture_output=True,
                               text=True,
-                              timeout=3,
+                              timeout=20,
                               input='\n')  # Provide newline input for interactive tools
         if result.returncode == 0:
             # Quick version extraction from first line
@@ -203,7 +204,7 @@ def check_zap_available():
         result = subprocess.run(["zap.sh", "--version"],
                               capture_output=True,
                               text=True,
-                              timeout=3)
+                              timeout=20)
         if result.returncode == 0:
             return True, "Available"
         else:

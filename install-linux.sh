@@ -40,7 +40,10 @@ sudo apt-get install -y ffuf
 
 # Nuclei
 echo "Installing Nuclei..."
-sudo apt-get install -y nuclei
+wget https://github.com/projectdiscovery/nuclei/releases/download/v3.4.10/nuclei_3.4.10_linux_amd64.tar.gz
+tar -xzf nuclei_3.4.10_linux_amd64.tar.gz
+sudo mv nuclei /usr/local/bin/nuclei
+rm nuclei_3.4.10_linux_amd64.tar.gz
 
 # Arjun
 echo "Installing Arjun..."
