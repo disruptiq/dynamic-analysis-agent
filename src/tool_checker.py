@@ -113,30 +113,31 @@ def check_tool_availability(tool_name):
         tuple: (is_available, status_message)
     """
     tool_checks = {
-        "ZAP (OWASP Zed Attack Proxy)": check_zap_available,
-        "Nmap": lambda: check_command_available("nmap", "-V"),
-        "Nikto": lambda: check_command_available("nikto", "-Version"),
-        "Nessus": lambda: check_command_available("nessus"),
-        "OpenVAS": lambda: check_command_available("openvas-start"),
-        "Acunetix": lambda: check_command_available("acunetix"),
-        "QualysGuard": lambda: check_command_available("qualys-api-scanner"),
-        "Rapid7 Nexpose": lambda: check_command_available("nexpose"),
-        "Metasploit": lambda: check_command_available("msfconsole"),
-        "SQLMap": lambda: check_command_available("sqlmap"),
-        "Gobuster": lambda: check_command_available("gobuster"),
-        "FFUF (Fuzz Faster U Fool)": lambda: check_command_available("ffuf"),
-        "Nuclei": lambda: check_command_available("nuclei"),
-        "Jaeles": lambda: check_command_available("jaeles"),
-        "XSStrike": lambda: check_command_available("xsstrike"),
-        "Arjun": lambda: check_command_available("arjun"),
-        "Falco": lambda: check_command_available("falco"),
-        "OSSEC": lambda: check_command_available("ossec-control"),
-        "Snort": lambda: check_command_available("snort"),
-        "Suricata": lambda: check_command_available("suricata"),
-        "Wireshark": lambda: check_command_available("tshark"),
-        "TCPDump": lambda: check_command_available("tcpdump"),
-        "BeEF (Browser Exploitation Framework)": lambda: check_command_available("beef")
-    }
+    "ZAP (OWASP Zed Attack Proxy)": check_zap_available,
+    "Nmap": lambda: check_command_available("nmap", "--version"),            # program present; use -sV when scanning targets
+    "Nikto": lambda: check_command_available("nikto", "-h"),               # nikto CLI exists; -h shows usage
+    "Nessus": lambda: check_command_available("nessuscli", "-v"),          # use nessuscli for Nessus CLI checks
+    "OpenVAS / GVM": lambda: check_command_available("gvm-start", "--help"),# modern OpenVAS is provided by GVM (gvm-start/gvm-check-setup)
+    "Acunetix": lambda: check_command_available("acunetix", "--help"),     # Acunetix has various CLIs/APIs; existence check via 'acunetix'
+    "Qualys": lambda: check_command_available("qualys-cloud-agent", "--version"), # Qualys cloud agent / cloudagentctl tools
+    "Rapid7 Nexpose": lambda: check_command_available("nexposeconsole", "--help"),
+    "Metasploit": lambda: check_command_available("msfconsole", "--version"),
+    "SQLMap": lambda: check_command_available("sqlmap", "--version"),
+    "Gobuster": lambda: check_command_available("gobuster", "--version"),
+    "FFUF (Fuzz Faster U Fool)": lambda: check_command_available("ffuf", "--version"),
+    "Nuclei": lambda: check_command_available("nuclei", "--version"),
+    "Jaeles": lambda: check_command_available("jaeles", "--version"),
+    "XSStrike": lambda: check_command_available("xsstrike", "--help"),
+    "Arjun": lambda: check_command_available("arjun", "--help"),
+    "Falco": lambda: check_command_available("falco", "--version"),
+    "OSSEC": lambda: check_command_available("ossec-control", "--help"),
+    "Snort": lambda: check_command_available("snort", "--version"),
+    "Suricata": lambda: check_command_available("suricata", "--build-info"), # suricata has --build-info
+    "Wireshark (tshark)": lambda: check_command_available("tshark", "--version"),
+    "TCPDump": lambda: check_command_available("tcpdump", "--version"),
+    "BeEF (Browser Exploitation Framework)": lambda: check_command_available("beef", "--help")
+}
+
 
     check_func = tool_checks.get(tool_name)
     if check_func:
