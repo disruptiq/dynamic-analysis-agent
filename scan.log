@@ -160,3 +160,8 @@
 2025-11-05 11:18:04,462 - dynamic_analysis_agent - INFO - ZAP scan skipped or not available
 2025-11-05 11:18:04,462 - dynamic_analysis_agent - INFO - Scan completed. Found 413 vulnerabilities across 0 tools.
 2025-11-05 11:18:04,504 - dynamic_analysis_agent - INFO - Results exported to output.json
+2025-11-06 18:23:47,646 - dynamic_analysis_agent - INFO - Starting async scan 84391f19-7942-4727-af2e-2b282f1dac2f for image test-image
+2025-11-06 18:23:48,162 - dynamic_analysis_agent - INFO - Starting async scan a6edf8bf-66a5-4955-8b89-ff831710a7d3 for image test-image
+2025-11-06 18:24:18,006 - dynamic_analysis_agent - INFO - Starting async scan 96af8ec7-ccb1-426e-9fec-0b4ec945bd32 for image test-image
+2025-11-06 18:24:18,015 - dynamic_analysis_agent - INFO - Starting async scan 505474b1-1a97-4f90-bc09-c416a1918b4f for image test-image
+2025-11-06 18:24:25,208 - dynamic_analysis_agent - INFO - Starting async scan 014e1788-7243-4818-ad17-0e60d91efbf4 for image test-image

@@ -319,11 +319,32 @@ dynamic-analysis-agent/
 │   ├── helm/                       # Helm charts for Kubernetes
 │   ├── argocd/                     # ArgoCD GitOps configuration
 │   └── docs/                       # CI/CD documentation
-├── test/                           # Test applications and environments
-│   ├── vulnerable_app.py          # Intentionally vulnerable Flask app
-│   ├── Dockerfile                 # Test app containerization
+├── test/                           # Comprehensive testing framework
+│   ├── unit/                      # Unit tests (45 tests)
+│   │   ├── test_config.py         # Configuration management tests
+│   │   ├── test_logger.py         # Logging system tests
+│   │   ├── test_utils.py          # Utility functions tests
+│   │   ├── test_api.py            # API endpoint tests
+│   │   └── test_nmap_scanner.py   # Nmap integration tests
+│   ├── integration/               # Integration tests (12 tests)
+│   │   ├── test_integration_api_config.py  # API + config interaction
+│   │   └── test_integration_api_logger.py  # API + logger interaction
+│   ├── e2e/                       # End-to-end tests (8 tests)
+│   │   └── test_e2e_scan_workflow.py  # Complete scan workflows
+│   ├── performance/               # Performance tests (9 tests)
+│   │   └── test_performance_api.py # API performance benchmarks
+│   ├── load/                      # Load tests (8 tests)
+│   │   └── test_load_api.py       # High-load API testing
+│   ├── security/                  # Security tests (8 tests)
+│   │   └── test_security_agent.py # Agent security testing
+│   ├── conftest.py                # Shared fixtures and configuration
+│   ├── pytest.ini                 # Pytest settings and coverage configuration
+│   ├── README.md                  # Testing framework documentation
+│   ├── vulnerable_app.py          # Test target application
 │   ├── docker-compose.yml         # Test environment orchestration
-│   └── README.md                  # Test setup instructions
+│   ├── Dockerfile                 # Test containerization
+│   ├── requirements.txt           # Test dependencies
+│   └── test_basic.py              # Basic functionality tests
 ├── src/                           # Source modules
 │   ├── __init__.py
 │   ├── api.py                     # REST API implementation
@@ -442,6 +463,131 @@ helm install security-scanner ci-cd/helm/dynamic-analysis-agent/
 ### Documentation
 
 For detailed setup instructions, see [`ci-cd/README.md`](ci-cd/README.md) and [`ci-cd/docs/CI_CD_README.md`](ci-cd/docs/CI_CD_README.md).
+
+## Testing Framework
+
+The Dynamic Analysis Agent includes a comprehensive testing framework with automated unit tests, integration tests, end-to-end tests, performance tests, load tests, and security tests to ensure code quality and reliability.
+
+### 🧪 Test Categories
+
+- **Unit Tests** (`pytest -m unit`): Test individual components in isolation (45 tests)
+- **Integration Tests** (`pytest -m integration`): Test component interactions (12 tests)
+- **End-to-End Tests** (`pytest -m e2e`): Test complete user workflows (8 tests)
+- **Performance Tests** (`pytest -m performance`): Benchmark system performance (9 tests)
+- **Load Tests** (`pytest -m load`): Test system under high load (8 tests)
+- **Security Tests** (`pytest -m security`): Test agent security (8 tests)
+
+### 🚀 Running Tests
+
+```bash
+# Install test dependencies
+pip install -r requirements.txt
+
+# Run all tests
+pytest
+
+# Run specific test categories
+pytest -m unit
+pytest -m integration
+pytest -m e2e
+pytest -m performance
+pytest -m load
+pytest -m security
+
+# Run with coverage report
+pytest --cov=src --cov-report=html
+
+# Run specific test files
+pytest test/test_config.py
+pytest test/test_api.py -v
+
+# Run tests in parallel (if pytest-xdist installed)
+pytest -n auto
+```
+
+### 📊 Code Coverage
+
+The testing framework maintains 80% minimum code coverage with detailed HTML reports:
+
+```bash
+# Generate coverage report
+pytest --cov=src --cov-report=html
+
+# View report in browser
+open htmlcov/index.html
+```
+
+### 🛠️ Testing Infrastructure
+
+- **pytest**: Testing framework with rich assertions and fixtures
+- **pytest-cov**: Coverage reporting with minimum thresholds
+- **Mocking**: Comprehensive mocking of external dependencies
+- **Fixtures**: Shared test data and configuration
+- **Markers**: Custom test categorization and filtering
+- **CI/CD Integration**: Automated testing in all CI/CD pipelines
+
+### 📁 Test Structure
+
+```
+test/
+├── unit/                      # Unit tests (45 tests)
+│   ├── test_config.py         # Configuration management tests
+│   ├── test_logger.py         # Logging system tests
+│   ├── test_utils.py          # Utility functions tests
+│   ├── test_api.py            # API endpoint tests
+│   └── test_nmap_scanner.py   # Nmap integration tests
+├── integration/               # Integration tests (12 tests)
+│   ├── test_integration_api_config.py  # API + config interaction
+│   └── test_integration_api_logger.py  # API + logger interaction
+├── e2e/                       # End-to-end tests (8 tests)
+│   └── test_e2e_scan_workflow.py  # Complete scan workflows
+├── performance/               # Performance tests (9 tests)
+│   └── test_performance_api.py # API performance benchmarks
+├── load/                      # Load tests (8 tests)
+│   └── test_load_api.py       # High-load API testing
+├── security/                  # Security tests (8 tests)
+│   └── test_security_agent.py # Agent security testing
+├── conftest.py                # Shared fixtures and configuration
+├── pytest.ini                 # Pytest settings and coverage configuration
+├── README.md                  # Testing framework documentation
+├── vulnerable_app.py          # Test target application
+├── docker-compose.yml         # Test environment orchestration
+├── Dockerfile                 # Test containerization
+├── requirements.txt           # Test dependencies
+└── test_basic.py              # Basic functionality tests
+```
+
+### 🔒 Security Testing
+
+The security tests verify:
+- Input validation and sanitization
+- Injection attack prevention
+- Information disclosure protection
+- File access restrictions
+- Command execution security
+- Configuration security
+
+### 📈 Performance & Load Testing
+
+Performance tests measure:
+- API response times and throughput
+- Memory usage under load
+- Concurrent request handling
+- Sustained load capacity
+- Resource utilization
+
+### 🤝 Contributing
+
+When contributing code:
+1. Add corresponding unit tests
+2. Ensure all tests pass
+3. Maintain or improve code coverage
+4. Add integration tests for new features
+5. Include performance tests for performance-critical code
+
+### 📖 Testing Documentation
+
+For detailed testing information, see [`test/README.md`](test/README.md).
 
 ## Disclaimer
 

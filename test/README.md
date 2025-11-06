@@ -1,249 +1,259 @@
-# Multi-Service Vulnerable Test Application
+# Testing Framework for Dynamic Analysis Agent
 
-This directory contains a deliberately vulnerable multi-service application designed to test the Dynamic Analysis Agent's multi-port scanning capabilities. The application runs multiple services on different ports with various types of vulnerabilities.
+This directory contains a comprehensive testing framework for the Dynamic Analysis Agent, implementing unit tests, integration tests, end-to-end tests, performance tests, load tests, and security tests.
 
-## 🚨 **WARNING**
-This application contains **REAL VULNERABILITIES** across multiple services and protocols and should NEVER be deployed in a production environment or exposed to the internet. It is for testing purposes only!
+## Test Structure
 
-## Services and Ports
+### 📁 Directory Organization
 
-### 1. **HTTP Flask Application** (Port 8080)
-Standard Flask web application with web vulnerabilities.
-
-### 2. **HTTPS Flask Application** (Port 8443)
-SSL-enabled Flask application with self-signed certificates and SSL/TLS misconfigurations.
-
-### 3. **TCP Server** (Port 9000)
-Custom TCP service with command execution and file access vulnerabilities.
-
-### 4. **Alternative HTTP Server** (Port 3000)
-Simple Python HTTP server with basic vulnerabilities.
-
-## Vulnerabilities Included
-
-### **Web Application Vulnerabilities** (Ports 8080, 8443, 3000)
-#### 1. **SQL Injection** (`/login`)
-- Location: Login forms on web applications
-- Vulnerability: Unsanitized user input in SQL queries
-- Test payloads: `' OR '1'='1`, `admin' --`, etc.
-
-#### 2. **Cross-Site Scripting (XSS)** (`/search`)
-- Location: Search results and user input reflection
-- Vulnerability: Unsanitized output rendering
-- Test payloads: `<script>alert('xss')</script>`, `<img src=x onerror=alert('xss')>`
-
-#### 3. **Command Injection** (`/system`, `/info`)
-- Location: System command execution endpoints
-- Vulnerability: Shell command injection via parameters
-- Test payloads: `; ls -la`, `| cat /etc/passwd`, `; sleep 5`
-
-#### 4. **Directory Traversal** (`/file`)
-- Location: File viewer and file listing endpoints
-- Vulnerability: Path traversal via file parameters
-- Test payloads: `../../../etc/passwd`, `../../config.txt`
-
-#### 5. **Information Disclosure**
-- `/api/users`: Exposes user data including passwords
-- `/debug`, `/env`: Reveals environment variables and system information
-- Debug prints in console output
-
-### **TCP Service Vulnerabilities** (Port 9000)
-#### 6. **TCP Command Injection**
-- Commands: `EVAL <python_code>`, `EXEC <system_command>`, `READ <file>`
-- Vulnerability: Direct code/command execution
-- Test: `EVAL 1+1`, `EXEC whoami`, `READ /etc/passwd`
-
-#### 7. **TCP Buffer Overflow Potential**
-- Large data handling without proper bounds checking
-
-### **SSL/TLS Vulnerabilities** (Port 8443)
-#### 8. **Self-Signed Certificate**
-- Uses untrusted self-signed certificate
-- Certificate validation bypass testing
-
-#### 9. **SSL/TLS Misconfiguration**
-- Weak cipher suites (if configured)
-- Improper certificate validation
-
-## Running the Application
-
-### Using Docker Compose (Recommended)
-```bash
-cd test
-docker-compose up --build
+```
+test/
+├── unit/                      # Unit tests (45 tests)
+│   ├── test_config.py         # Configuration management tests
+│   ├── test_logger.py         # Logging system tests
+│   ├── test_utils.py          # Utility functions tests
+│   ├── test_api.py            # API endpoint tests
+│   └── test_nmap_scanner.py   # Nmap integration tests
+├── integration/               # Integration tests (12 tests)
+│   ├── test_integration_api_config.py  # API + config interaction
+│   └── test_integration_api_logger.py  # API + logger interaction
+├── e2e/                       # End-to-end tests (8 tests)
+│   └── test_e2e_scan_workflow.py  # Complete scan workflows
+├── performance/               # Performance tests (9 tests)
+│   └── test_performance_api.py # API performance benchmarks
+├── load/                      # Load tests (8 tests)
+│   └── test_load_api.py       # High-load API testing
+├── security/                  # Security tests (8 tests)
+│   └── test_security_agent.py # Agent security testing
+├── conftest.py                # Shared fixtures and configuration
+├── pytest.ini                 # Pytest settings and coverage configuration
+├── README.md                  # Testing framework documentation
+├── vulnerable_app.py          # Test target application
+├── docker-compose.yml         # Test environment orchestration
+├── Dockerfile                 # Test app containerization
+├── requirements.txt           # Test dependencies
+└── test_basic.py              # Basic functionality tests
 ```
 
-### Using Docker directly
+### 🧪 Test Categories
+
+#### Unit Tests (`pytest -m unit`)
+Located in `test/unit/` - Test individual components in isolation:
+- **test_config.py**: Configuration management testing
+- **test_logger.py**: Logging utilities testing
+- **test_utils.py**: Utility functions testing
+- **test_api.py**: API endpoint testing
+- **test_nmap_scanner.py**: Nmap scanner tool testing
+
+#### Integration Tests (`pytest -m integration`)
+Located in `test/integration/` - Test component interactions:
+- **test_integration_api_config.py**: API and configuration interaction
+- **test_integration_api_logger.py**: API and logging interaction
+
+#### End-to-End Tests (`pytest -m e2e`)
+Located in `test/e2e/` - Test complete user workflows:
+- **test_e2e_scan_workflow.py**: Complete scan workflow testing
+
+#### Performance Tests (`pytest -m performance`)
+Located in `test/performance/` - Benchmark system performance:
+- **test_performance_api.py**: API endpoint performance benchmarking
+
+#### Load Tests (`pytest -m load`)
+Located in `test/load/` - Test system under high load:
+- **test_load_api.py**: High-load API testing
+
+#### Security Tests (`pytest -m security`)
+Located in `test/security/` - Test agent security:
+- **test_security_agent.py**: Security testing of the agent codebase
+
+## Configuration
+
+### pytest.ini
+Contains pytest configuration including:
+- Test discovery patterns
+- Coverage settings (80% minimum coverage required)
+- Custom markers
+- Test output formatting
+
+### conftest.py
+Shared fixtures and configuration:
+- `api_client`: Flask test client
+- `clean_scan_state`: Clean scan state for tests
+- `mock_config`, `mock_logger`, `mock_subprocess`: Common mocks
+- Sample test data fixtures
+
+## Running Tests
+
+### Run All Tests
 ```bash
-cd test
-docker build -t vulnerable-app .
-docker run -p 8080:8080 -p 8443:8443 -p 9000:9000 -p 3000:3000 vulnerable-app
+pytest
 ```
 
-### Direct Python execution (Not recommended for testing)
+### Run Specific Test Categories
 ```bash
-cd test
-pip install -r requirements.txt cryptography
-python vulnerable_app.py
+# Unit tests only
+pytest -m unit
+
+# Integration tests only
+pytest -m integration
+
+# End-to-end tests only
+pytest -m e2e
+
+# Performance tests only
+pytest -m performance
+
+# Load tests only
+pytest -m load
+
+# Security tests only
+pytest -m security
 ```
 
-## Testing the Application
-
-Once running, the application exposes multiple services:
-
-### Web Services (Ports 8080, 8443, 3000)
-- **Port 8080**: `http://localhost:8080` - Standard HTTP Flask application
-- **Port 8443**: `https://localhost:8443` - HTTPS Flask application (accept self-signed certificate)
-- **Port 3000**: `http://localhost:3000` - Alternative HTTP server
-
-### TCP Service (Port 9000)
-Connect using netcat or telnet:
+### Run Specific Test Files
 ```bash
-# Connect to TCP service
-nc localhost 9000
-
-# Test commands:
-EVAL 1+1
-EXEC whoami
-READ test.txt
+pytest test_config.py
+pytest test_api.py -v
 ```
 
-### Available Endpoints
-Each web service provides similar endpoints:
-- `/` - Home page with vulnerability overview
-- `/login` - SQL Injection vulnerability
-- `/search` - XSS vulnerability
-- `/admin` - Admin panel
-- `/system` - Command injection
-- `/file` - Directory traversal
-- `/api/users` - Information disclosure
-- `/debug` - Debug information disclosure
-
-### Testing with Dynamic Analysis Agent
+### Run with Coverage
 ```bash
-# Test all ports
-python ../main.py --image vulnerable-app --port 8080,8443,9000,3000
-
-# Test specific ports
-python ../main.py --image vulnerable-app --port 8080,8081
+pytest --cov=src --cov-report=html
 ```
 
-## Expected Dynamic Analysis Agent Results
-
-When scanning all ports (`--port 8080,8443,9000,3000`), the Dynamic Analysis Agent should detect:
-
-### Web Application Vulnerabilities (Ports 8080, 8443, 3000)
-- ✅ SQL Injection vulnerabilities in login forms
-- ✅ XSS vulnerabilities in search results
-- ✅ Command injection in system endpoints
-- ✅ Directory traversal in file viewers
-- ✅ Information disclosure in API endpoints and debug pages
-
-### TCP Service Vulnerabilities (Port 9000)
-- ✅ TCP port openness and service detection
-- ⚠️ Command injection (may require custom TCP scanning logic)
-
-### SSL/TLS Vulnerabilities (Port 8443)
-- ✅ Self-signed certificate detection
-- ✅ SSL/TLS configuration issues (if SSL scanning is implemented)
-
-### Multi-Port Scanning Benefits
-- 🧪 Tests the agent's ability to scan multiple ports simultaneously
-- 📊 Provides comprehensive coverage across different service types
-- 🔍 Validates port-specific vulnerability detection
-- 🌐 Tests both HTTP/HTTPS and TCP protocol handling
-
-## Performance Testing Results
-
-### Test Results Summary
-
-**Scan Duration**: ~2.1 seconds
-**Vulnerabilities Detected**: 52 total
-**Tools Used**: Manual vulnerability scanner only (Nmap/Nikto/ZAP not installed)
-
-#### Vulnerability Breakdown:
-- **SQL Injection**: 2 detected ✅ (Authentication bypass detection working)
-- **Command Injection**: 44 detected ⚠️ (High false positive rate)
-- **XSS**: 3 detected ✅ (All test payloads found)
-- **Directory Traversal**: 3 detected ✅ (All test payloads found)
-
-### Performance Analysis
-
-#### ✅ **Strengths**:
-1. **Fast Scanning**: Complete analysis in ~2 seconds
-2. **High Detection Rate**: Found all intentionally vulnerable endpoints
-3. **Structured Output**: Clear JSON reports with detailed evidence
-4. **Authentication Bypass Detection**: Successfully identified SQL injection login bypass
-
-#### ⚠️ **Issues Identified**:
-
-1. **Command Injection False Positives**: 44 detections, mostly false positives from over-aggressive detection logic
-2. **Unicode Encoding Issues**: Checkmark characters (✓) cause Windows console encoding errors
-3. **External Tools Not Available**: Nmap, Nikto, and ZAP skipped due to missing installations
-4. **Limited Payload Testing**: Only basic payloads tested, no advanced variations
-
-#### 📊 **Improvement Recommendations**:
-
-1. **Refine Command Injection Detection**:
-   - Reduce false positives by better HTML vs command output differentiation
-   - Implement baseline comparison (normal response vs injected response)
-   - Add specific command execution patterns
-
-2. **Fix Unicode Issues**:
-   - Replace Unicode characters with ASCII equivalents
-   - Add proper encoding handling for Windows consoles
-
-3. **Install External Tools**:
-   - Add Nmap, Nikto, and ZAP to the testing environment
-   - Test integration with professional scanning tools
-
-4. **Enhanced Detection Logic**:
-   - Add more sophisticated SQL injection detection (time-based, boolean-based)
-   - Implement proper authentication state tracking
-   - Add response size/content analysis for injection detection
-
-5. **Performance Optimizations**:
-   - Implement concurrent scanning for multiple endpoints
-   - Add caching for repeated requests
-   - Optimize payload testing with early exit on success
-
-### Detection Accuracy Assessment
-
-**True Positives**: 8 (2 SQL + 3 XSS + 3 Directory Traversal)
-**False Positives**: ~44 (Command injection over-detection)
-**False Negatives**: 0 (All known vulnerabilities detected)
-**Accuracy Rate**: ~15% (needs improvement in specificity)
-
-## Cleanup
-
+### Run Performance Tests (with detailed output)
 ```bash
-cd test
-docker-compose down
-docker system prune -f  # Optional: clean up unused containers
+pytest -m performance -v -s
 ```
 
-### Manual Docker Cleanup
-```bash
-# Stop and remove containers
-docker stop $(docker ps -q --filter ancestor=vulnerable-app)
-docker rm $(docker ps -aq --filter ancestor=vulnerable-app)
+## Test Categories Explained
 
-# Remove images
-docker rmi vulnerable-app
+### Unit Tests
+Test individual components in isolation using mocks and stubs. Focus on:
+- Function correctness
+- Error handling
+- Edge cases
+- Input validation
 
-# Clean up certificates and temporary files
-rm -f cert.pem key.pem
+### Integration Tests
+Test interaction between multiple components:
+- API with configuration
+- API with logging
+- Component interoperability
+
+### End-to-End Tests
+Test complete user workflows:
+- Scan creation to completion
+- Error scenarios
+- Cancellation workflows
+
+### Performance Tests
+Benchmark system performance:
+- Response times
+- Memory usage
+- Throughput metrics
+
+### Load Tests
+Test system under high load:
+- Concurrent operations
+- Sustained load
+- Memory usage under load
+
+### Security Tests
+Test agent security:
+- Input validation
+- Injection prevention
+- Information disclosure
+- File access restrictions
+
+## Coverage Requirements
+
+- Minimum 80% code coverage required
+- Coverage reports generated in HTML format
+- Coverage failures will cause test suite to fail
+
+## Continuous Integration
+
+The test suite is designed to run in CI/CD pipelines:
+
+1. Unit and integration tests run on every commit
+2. Performance tests run on release branches
+3. Load and security tests run nightly
+4. Coverage reports uploaded to CI dashboard
+
+## Adding New Tests
+
+### For Unit Tests
+```python
+import pytest
+from src.module import function_to_test
+
+class TestModuleName:
+    def test_function_name(self):
+        # Arrange
+        # Act
+        # Assert
+        pass
 ```
 
-## Security Note
+### For Integration Tests
+```python
+@pytest.mark.integration
+class TestComponentInteraction:
+    def test_api_config_integration(self, api_client, mock_config):
+        # Test interaction between API and config
+        pass
+```
 
-After testing, ensure this application is completely removed from your system and never deployed anywhere accessible from the internet. The application contains real vulnerabilities that could be exploited if exposed to untrusted networks.
+### For Performance Tests
+```python
+@pytest.mark.performance
+class TestPerformance:
+    def test_endpoint_performance(self, api_client):
+        # Measure response times
+        # Assert performance requirements
+        pass
+```
 
-### Port Security
-When running this application:
-- Only expose ports to localhost (127.0.0.1) during testing
-- Never expose to 0.0.0.0 in production-like environments
-- Use firewall rules to restrict access during testing
+## Mocking Strategy
 
-### Certificate Cleanup
-The HTTPS service generates self-signed certificates (`cert.pem`, `key.pem`) that should be deleted after testing.
+- External dependencies (Docker, network tools) are mocked
+- File system operations use temporary files
+- API responses are mocked for external services
+- Time-dependent operations use fixed timestamps
+
+## Test Data
+
+Sample test data is provided through fixtures:
+- `sample_scan_data`: Valid scan creation payload
+- `sample_vulnerability`: Vulnerability data structure
+- `sample_tool_result`: Tool execution result
+
+## Best Practices
+
+1. **Test Isolation**: Each test should be independent
+2. **Descriptive Names**: Test names should describe what they test
+3. **Minimal Assertions**: Assert only what's necessary
+4. **Fast Execution**: Tests should run quickly
+5. **Realistic Data**: Use realistic test data
+6. **Error Scenarios**: Test both success and failure cases
+7. **Documentation**: Document complex test scenarios
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Import Errors**: Ensure PYTHONPATH includes src directory
+2. **Mock Issues**: Check that mocks are properly scoped
+3. **Fixture Errors**: Ensure fixtures are properly defined
+4. **Coverage Issues**: Check that source files are importable
+
+### Debug Mode
+```bash
+pytest -v -s --pdb test_file.py::TestClass::test_method
+```
+
+### Profiling Tests
+```bash
+pytest --durations=10  # Show slowest 10 tests
+```
