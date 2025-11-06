@@ -11,6 +11,7 @@ reportlab==4.0.4
 
 # Security tool integrations
 # python-owasp-zap-v2.4==0.0.20  # Optional: for ZAP integration
+shodan>=1.29.0  # Shodan API integration
 
 # Additional utilities for comprehensive security testing
 beautifulsoup4>=4.12.0  # HTML/XML parsing

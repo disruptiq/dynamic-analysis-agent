@@ -55,7 +55,41 @@ def list_available_tools():
             "TCPDump"
         ],
         "Browser Exploitation": [
-            "BeEF (Browser Exploitation Framework)"
+        "BeEF (Browser Exploitation Framework)"
+        ],
+        "Kali Linux Tools": [
+        "Hydra",
+        "WPScan",
+        "Joomlavs",
+        "DNSRecon",
+        "Enum4linux",
+        "Responder",
+        "Bettercap",
+        "Aircrack-ng",
+        "John the Ripper",
+        "Hashcat",
+        "BloodHound",
+        "CrackMapExec",
+        "Evil-WinRM",
+        "Chisel",
+        "Proxychains",
+        "SQLNinja",
+        "Commix",
+        "Tplmap",
+        "Xsser",
+        "Patator",
+        "Recon-ng",
+        "TheHarvester",
+        "Maltego",
+        "Shodan",
+            "Amass",
+            "Sublist3r",
+            "Assetfinder",
+            "Httprobe",
+            "Gf",
+            "Qsreplace",
+            "Ferret",
+            "Dotdotpwn"
         ]
     }
 
@@ -135,7 +169,39 @@ def check_tool_availability(tool_name):
     "Suricata": lambda: check_command_available("suricata", "--build-info"), # suricata has --build-info
     "Wireshark (tshark)": lambda: check_command_available("tshark", "--version"),
     "TCPDump": lambda: check_command_available("tcpdump", "--version"),
-    "BeEF (Browser Exploitation Framework)": lambda: check_command_available("beef", "--help")
+    "BeEF (Browser Exploitation Framework)": lambda: check_command_available("beef", "--help"),
+    "Hydra": lambda: check_command_available("hydra", "--help"),
+    "WPScan": lambda: check_command_available("wpscan", "--version"),
+    "Joomlavs": lambda: check_command_available("joomlavs", "--help"),
+    "DNSRecon": lambda: check_command_available("dnsrecon", "--help"),
+    "Enum4linux": lambda: check_command_available("enum4linux", "--help"),
+    "Responder": lambda: check_command_available("responder", "--help"),
+    "Bettercap": lambda: check_command_available("bettercap", "--help"),
+    "Aircrack-ng": lambda: check_command_available("aircrack-ng", "--help"),
+    "John the Ripper": lambda: check_command_available("john", "--help"),
+    "Hashcat": lambda: check_command_available("hashcat", "--help"),
+    "BloodHound": lambda: check_command_available("bloodhound-python", "--help"),
+    "CrackMapExec": lambda: check_command_available("crackmapexec", "--help"),
+    "Evil-WinRM": lambda: check_command_available("evil-winrm", "--help"),
+    "Chisel": lambda: check_command_available("chisel", "--help"),
+    "Proxychains": lambda: check_command_available("proxychains", "--help"),
+    "SQLNinja": lambda: check_command_available("sqlninja", "--help"),
+    "Commix": lambda: check_command_available("commix", "--help"),
+    "Tplmap": lambda: check_command_available("tplmap", "--help"),
+    "Xsser": lambda: check_command_available("xsser", "--help"),
+    "Patator": lambda: check_command_available("patator", "--help"),
+    "Recon-ng": lambda: check_command_available("recon-ng", "--help"),
+    "TheHarvester": lambda: check_command_available("theHarvester", "--help"),
+    "Maltego": lambda: check_command_available("maltego", "--help"),
+    "Shodan": lambda: check_python_module_available("shodan"),
+    "Amass": lambda: check_command_available("amass", "--version"),
+    "Sublist3r": lambda: check_command_available("sublist3r", "--help"),
+    "Assetfinder": lambda: check_command_available("assetfinder", "--help"),
+    "Httprobe": lambda: check_command_available("httprobe", "--help"),
+    "Gf": lambda: check_command_available("gf", "--help"),
+    "Qsreplace": lambda: check_command_available("qsreplace", "--help"),
+    "Ferret": lambda: check_command_available("ferret", "--help"),
+    "Dotdotpwn": lambda: check_command_available("dotdotpwn.pl", "--help")
 }
 
 
@@ -146,6 +212,25 @@ def check_tool_availability(tool_name):
         except Exception as e:
             return False, f"Error checking availability: {str(e)}"
     return False, "No availability check defined"
+
+
+def check_python_module_available(module_name):
+    """
+    Check if a Python module is available.
+
+    Args:
+        module_name (str): Name of the Python module
+
+    Returns:
+        tuple: (is_available, status_message)
+    """
+    try:
+        __import__(module_name)
+        return True, "Available"
+    except ImportError:
+        return False, "Not installed"
+    except Exception as e:
+        return False, f"Error: {str(e)}"
 
 
 def check_command_available(command, version_flag="--version"):
