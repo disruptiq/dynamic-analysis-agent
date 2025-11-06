@@ -498,8 +498,8 @@ pytest -m security
 pytest --cov=src --cov-report=html
 
 # Run specific test files
-pytest test/test_config.py
-pytest test/test_api.py -v
+pytest test/unit/test_config.py
+pytest test/unit/test_api.py -v
 
 # Run tests in parallel (if pytest-xdist installed)
 pytest -n auto

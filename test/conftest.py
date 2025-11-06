@@ -5,8 +5,14 @@ Pytest configuration and shared fixtures for testing.
 import pytest
 import tempfile
 import os
+import sys
 import yaml
 from unittest.mock import patch
+
+# Add the project root to Python path for imports
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
 from src.api import app, active_scans, scan_results
 from src.config import Config

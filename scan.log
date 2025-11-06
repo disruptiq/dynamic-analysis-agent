@@ -165,3 +165,8 @@
 2025-11-06 18:24:18,006 - dynamic_analysis_agent - INFO - Starting async scan 96af8ec7-ccb1-426e-9fec-0b4ec945bd32 for image test-image
 2025-11-06 18:24:18,015 - dynamic_analysis_agent - INFO - Starting async scan 505474b1-1a97-4f90-bc09-c416a1918b4f for image test-image
 2025-11-06 18:24:25,208 - dynamic_analysis_agent - INFO - Starting async scan 014e1788-7243-4818-ad17-0e60d91efbf4 for image test-image
+2025-11-06 20:27:47,436 - dynamic_analysis_agent - INFO - Starting async scan d95b653a-6476-4d85-84f7-9fd323839f77 for image test-image
+2025-11-06 20:27:47,449 - dynamic_analysis_agent - INFO - Starting async scan 8bb858c8-b23c-44ad-bb0e-a2e1cfc93732 for image test-image
+2025-11-06 20:28:17,682 - dynamic_analysis_agent - INFO - Starting async scan 6288c990-3153-4630-9f4f-beab07b26812 for image test-image
+2025-11-06 20:29:26,608 - dynamic_analysis_agent - INFO - Starting async scan cc3661d0-1163-44a9-bce0-246e084bc595 for image test-image
+2025-11-06 20:29:26,613 - dynamic_analysis_agent - INFO - Starting async scan 7c0552ce-bb02-4589-87d7-0d2d9303fee8 for image test-image

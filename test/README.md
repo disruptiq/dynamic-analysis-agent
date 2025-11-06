@@ -112,8 +112,10 @@ pytest -m security
 
 ### Run Specific Test Files
 ```bash
-pytest test_config.py
-pytest test_api.py -v
+pytest test/unit/test_config.py
+pytest test/unit/test_api.py -v
+pytest test/integration/test_integration_api_config.py
+pytest test/performance/test_performance_api.py
 ```
 
 ### Run with Coverage
