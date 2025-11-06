@@ -1,0 +1,156 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamic-analysis-agent
+  namespace: security
+  labels:
+    app: dynamic-analysis-agent
+    component: security-scanner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dynamic-analysis-agent
+  template:
+    metadata:
+      labels:
+        app: dynamic-analysis-agent
+        component: security-scanner
+    spec:
+      serviceAccountName: security-scanner-sa
+      containers:
+      - name: scanner
+        image: dynamic-analysis-agent:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: api
+        env:
+        - name: SCAN_TARGET_IMAGE
+          value: "nginx:latest"
+        - name: SCAN_TARGET_PORTS
+          value: "80"
+        - name: OUTPUT_FORMAT
+          value: "json"
+        - name: LOG_LEVEL
+          value: "INFO"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        volumeMounts:
+        - name: scan-results
+          mountPath: /app/results
+        - name: config
+          mountPath: /app/config
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: scan-results
+        persistentVolumeClaim:
+          claimName: scan-results-pvc
+      - name: config
+        configMap:
+          name: scanner-config
+      initContainers:
+      - name: init-scanner
+        image: busybox:1.35
+        command: ['sh', '-c', 'mkdir -p /app/results && chown -R 1000:1000 /app/results']
+        volumeMounts:
+        - name: scan-results
+          mountPath: /app/results
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamic-analysis-agent-service
+  namespace: security
+  labels:
+    app: dynamic-analysis-agent
+spec:
+  selector:
+    app: dynamic-analysis-agent
+  ports:
+  - name: api
+    port: 5000
+    targetPort: 5000
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: scan-results-pvc
+  namespace: security
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: scanner-config
+  namespace: security
+data:
+  config.yaml: |
+    docker:
+      default_port: 8080
+      timeout: 300
+    reporting:
+      default_format: json
+      include_timestamps: true
+    logging:
+      level: INFO
+      file: /app/results/scanner.log
+    scanning:
+      max_concurrent_scans: 3
+      timeout: 600
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: security-scanner-sa
+  namespace: security
+automountServiceAccountToken: false
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: security-scanner-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["create", "get", "list", "watch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: security-scanner-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: security-scanner-role
+subjects:
+- kind: ServiceAccount
+  name: security-scanner-sa
+  namespace: security

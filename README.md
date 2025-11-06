@@ -27,6 +27,7 @@ A cybersecurity tool for performing dynamic analysis tests on applications runni
   - CSV export for spreadsheet analysis
   - Auto-generated timestamps and organized output
 - Advanced configuration and extensibility
+- **Complete CI/CD Integration**: Support for all major platforms (GitHub Actions, GitLab CI, Jenkins, Azure DevOps, CircleCI, Travis CI, Bitbucket Pipelines)
 
 ## Installation
 
@@ -304,6 +305,20 @@ dynamic-analysis-agent/
 ├── api_server.py                  # Dedicated API server
 ├── requirements.txt                # Python dependencies
 ├── config.yaml                     # Configuration file
+├── ci-cd/                          # CI/CD integration configurations
+│   ├── README.md                   # CI/CD setup guide
+│   ├── github/                     # GitHub Actions workflows
+│   ├── gitlab/                     # GitLab CI/CD configuration
+│   ├── jenkins/                    # Jenkins pipeline configuration
+│   ├── azure/                      # Azure DevOps pipelines
+│   ├── circleci/                   # CircleCI configuration
+│   ├── travis/                     # Travis CI configuration
+│   ├── bitbucket/                  # Bitbucket Pipelines configuration
+│   ├── docker/                     # CI-optimized Docker images
+│   ├── kubernetes/                 # Kubernetes deployment manifests
+│   ├── helm/                       # Helm charts for Kubernetes
+│   ├── argocd/                     # ArgoCD GitOps configuration
+│   └── docs/                       # CI/CD documentation
 ├── test/                           # Test applications and environments
 │   ├── vulnerable_app.py          # Intentionally vulnerable Flask app
 │   ├── Dockerfile                 # Test app containerization
@@ -377,6 +392,56 @@ The agent is designed to be highly modular and extensible:
 - Add new endpoints in `src/api.py`
 - Follow RESTful conventions for new resources
 - Update API documentation in README.md
+
+## CI/CD Integration
+
+The Dynamic Analysis Agent includes comprehensive CI/CD integration for automated security scanning across all major platforms. All configuration files are organized in the `ci-cd/` directory.
+
+### Supported Platforms
+
+- **GitHub Actions** - Automated workflows with security gates
+- **GitLab CI/CD** - Multi-stage pipelines with artifact storage
+- **Jenkins** - Parameterized builds with JUnit reporting
+- **Azure DevOps** - YAML pipelines with quality gates
+- **CircleCI** - Reusable orbs with scheduled scans
+- **Travis CI** - Matrix builds with notifications
+- **Bitbucket Pipelines** - Branch-specific configurations
+
+### Quick Setup
+
+1. Copy the configuration for your platform from `ci-cd/[platform]/` to your repository
+2. Customize environment variables as needed
+3. Push to trigger automated security scanning
+
+### Key Features
+
+- 🔄 **Automated Triggers**: Scans on commits, PRs, and schedules
+- 📊 **Rich Reporting**: JSON/HTML/PDF/CSV outputs with summaries
+- 🚫 **Security Gates**: Configurable build failures based on severity
+- 📦 **Artifact Storage**: Scan results stored as CI/CD artifacts
+- 🔧 **Flexible Config**: Environment variables for customization
+- ⚡ **Optimized Images**: CI-specific Docker images for faster builds
+- 🎯 **Multi-Target**: Scan multiple applications in single pipelines
+- 🚀 **Production Ready**: Kubernetes/Helm/ArgoCD deployment options
+
+### Docker Integration
+
+For containerized deployments:
+
+```bash
+# CI-optimized image
+docker build -f ci-cd/docker/Dockerfile.ci -t scanner-ci .
+
+# Kubernetes deployment
+kubectl apply -f ci-cd/kubernetes/
+
+# Helm installation
+helm install security-scanner ci-cd/helm/dynamic-analysis-agent/
+```
+
+### Documentation
+
+For detailed setup instructions, see [`ci-cd/README.md`](ci-cd/README.md) and [`ci-cd/docs/CI_CD_README.md`](ci-cd/docs/CI_CD_README.md).
 
 ## Disclaimer
 

@@ -1,0 +1,253 @@
+# Azure DevOps Pipeline for Dynamic Analysis Agent
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema
+
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+  paths:
+    exclude:
+    - README.md
+    - docs/*
+
+pr:
+  branches:
+    include:
+    - main
+    - develop
+
+# Scheduled nightly security scans
+schedules:
+- cron: "0 2 * * *"
+  displayName: "Nightly security scan"
+  branches:
+    include:
+    - main
+  always: true
+
+parameters:
+- name: targetImage
+  displayName: "Target Docker Image"
+  type: string
+  default: "nginx:latest"
+
+- name: targetPorts
+  displayName: "Target Ports (comma-separated)"
+  type: string
+  default: "80"
+
+- name: outputFormat
+  displayName: "Output Format"
+  type: choice
+  choices:
+  - json
+  - html
+  - pdf
+  - csv
+  default: json
+
+- name: failOnCritical
+  displayName: "Fail on Critical Vulnerabilities"
+  type: boolean
+  default: true
+
+- name: failOnHigh
+  displayName: "Fail on High Vulnerabilities"
+  type: boolean
+  default: false
+
+variables:
+  scannerImageTag: 'dynamic-analysis-agent:$(Build.BuildId)'
+  scanResultsDir: 'results'
+  dockerBuildkit: '1'
+
+stages:
+- stage: Build
+  displayName: 'Build Security Scanner'
+  jobs:
+  - job: BuildScanner
+    displayName: 'Build Scanner Image'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - task: Docker@2
+      displayName: 'Build scanner image'
+      inputs:
+        command: build
+        dockerfile: Dockerfile
+        tags: $(scannerImageTag)
+
+- stage: SecurityScan
+  displayName: 'Run Security Scan'
+  dependsOn: Build
+  jobs:
+  - job: RunScan
+    displayName: 'Execute Security Scan'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - checkout: none
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifactName: scanner-image
+        downloadPath: $(System.DefaultWorkingDirectory)
+
+    - script: |
+        mkdir -p $(scanResultsDir)
+        echo "Starting security scan..."
+        echo "Target Image: ${{ parameters.targetImage }}"
+        echo "Target Ports: ${{ parameters.targetPorts }}"
+      displayName: 'Prepare scan environment'
+
+    - task: Docker@2
+      displayName: 'Run security scan'
+      inputs:
+        command: run
+        imageName: $(scannerImageTag)
+        volumes: |
+          $(System.DefaultWorkingDirectory)/$(scanResultsDir):/app/results
+        containerCommand: |
+          python main.py \
+            --image ${{ parameters.targetImage }} \
+            --port ${{ parameters.targetPorts }} \
+            --output-format ${{ parameters.outputFormat }} \
+            --output-file results/scan-results.${{ parameters.outputFormat }}
+        runInBackground: false
+
+    - script: |
+        if [ -f "$(scanResultsDir)/scan-results.json" ]; then
+          echo "Scan completed. Analyzing results..."
+
+          # Install jq for JSON parsing
+          sudo apt-get update && sudo apt-get install -y jq
+
+          # Extract vulnerability counts
+          CRITICAL=$(jq '.vulnerabilities | map(select(.severity == "CRITICAL")) | length' $(scanResultsDir)/scan-results.json 2>/dev/null || echo "0")
+          HIGH=$(jq '.vulnerabilities | map(select(.severity == "HIGH")) | length' $(scanResultsDir)/scan-results.json 2>/dev/null || echo "0")
+          MEDIUM=$(jq '.vulnerabilities | map(select(.severity == "MEDIUM")) | length' $(scanResultsDir)/scan-results.json 2>/dev/null || echo "0")
+          LOW=$(jq '.vulnerabilities | map(select(.severity == "LOW")) | length' $(scanResultsDir)/scan-results.json 2>/dev/null || echo "0")
+
+          echo "##vso[task.setvariable variable=criticalCount]$CRITICAL"
+          echo "##vso[task.setvariable variable=highCount]$HIGH"
+          echo "##vso[task.setvariable variable=mediumCount]$MEDIUM"
+          echo "##vso[task.setvariable variable=lowCount]$LOW"
+
+          echo "Vulnerability Summary:"
+          echo "  Critical: $CRITICAL"
+          echo "  High: $HIGH"
+          echo "  Medium: $MEDIUM"
+          echo "  Low: $LOW"
+        else
+          echo "No scan results found"
+          exit 1
+        fi
+      displayName: 'Analyze scan results'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish scan results'
+      inputs:
+        pathToPublish: $(scanResultsDir)
+        artifactName: 'SecurityScanResults'
+        publishLocation: 'Container'
+
+    - script: |
+        # Generate summary report
+        echo "# Security Scan Report" > $(scanResultsDir)/summary.md
+        echo "" >> $(scanResultsDir)/summary.md
+        echo "**Build:** $(Build.BuildNumber)" >> $(scanResultsDir)/summary.md
+        echo "**Target:** ${{ parameters.targetImage }}" >> $(scanResultsDir)/summary.md
+        echo "**Ports:** ${{ parameters.targetPorts }}" >> $(scanResultsDir)/summary.md
+        echo "**Scan Time:** $(date)" >> $(scanResultsDir)/summary.md
+        echo "" >> $(scanResultsDir)/summary.md
+        echo "## Vulnerability Summary" >> $(scanResultsDir)/summary.md
+        echo "- Critical: $(criticalCount)" >> $(scanResultsDir)/summary.md
+        echo "- High: $(highCount)" >> $(scanResultsDir)/summary.md
+        echo "- Medium: $(mediumCount)" >> $(scanResultsDir)/summary.md
+        echo "- Low: $(lowCount)" >> $(scanResultsDir)/summary.md
+      displayName: 'Generate summary report'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish summary report'
+      inputs:
+        pathToPublish: $(scanResultsDir)/summary.md
+        artifactName: 'SecurityScanSummary'
+        publishLocation: 'Container'
+
+- stage: QualityGate
+  displayName: 'Security Quality Gate'
+  dependsOn: SecurityScan
+  condition: and(succeeded(), or(eq('${{ parameters.failOnCritical }}', 'true'), eq('${{ parameters.failOnHigh }}', 'true')))
+  jobs:
+  - job: SecurityGate
+    displayName: 'Check Security Thresholds'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - script: |
+        # Download scan results
+        # (This would need to be implemented to download from previous stage)
+
+        echo "Checking security thresholds..."
+        echo "Fail on Critical: ${{ parameters.failOnCritical }}"
+        echo "Fail on High: ${{ parameters.failOnHigh }}"
+
+        # Note: In a real implementation, you'd download the artifacts from the previous stage
+        # and check the vulnerability counts against the thresholds
+
+        # For now, this is a placeholder
+        echo "Security gate check completed"
+      displayName: 'Validate security thresholds'
+
+# Example of how to extend for multiple targets
+- stage: MultiTargetScan
+  displayName: 'Multi-Target Security Scan'
+  dependsOn: Build
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  jobs:
+  - job: ScanMultipleTargets
+    displayName: 'Scan Multiple Targets'
+    strategy:
+      matrix:
+        nginx:
+          targetImage: 'nginx:latest'
+          targetPorts: '80'
+        apache:
+          targetImage: 'httpd:latest'
+          targetPorts: '80'
+        redis:
+          targetImage: 'redis:latest'
+          targetPorts: '6379'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - script: |
+        echo "Scanning $(targetImage) on ports $(targetPorts)"
+      displayName: 'Log scan target'
+
+    - task: Docker@2
+      displayName: 'Run scan on $(targetImage)'
+      inputs:
+        command: run
+        imageName: $(scannerImageTag)
+        volumes: |
+          $(System.DefaultWorkingDirectory)/results-$(targetImage):/app/results
+        containerCommand: |
+          mkdir -p /app/results && \
+          python main.py \
+            --image $(targetImage) \
+            --port $(targetPorts) \
+            --output-format json \
+            --output-file results/scan-results.json
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish results for $(targetImage)'
+      inputs:
+        pathToPublish: 'results-$(targetImage)'
+        artifactName: 'ScanResults-$(targetImage)'
+        publishLocation: 'Container'

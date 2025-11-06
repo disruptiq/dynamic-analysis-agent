@@ -1,0 +1,134 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      target_image:
+        description: 'Docker image to scan'
+        required: true
+        default: 'nginx:latest'
+      ports:
+        description: 'Ports to scan (comma-separated)'
+        required: false
+        default: '80'
+      fail_on_critical:
+        description: 'Fail build on critical vulnerabilities'
+        required: false
+        default: 'true'
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build security scanner image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: false
+        tags: dynamic-analysis-agent:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Determine target image
+      id: target
+      run: |
+        if [ "${{ github.event.inputs.target_image }}" != "" ]; then
+          echo "image=${{ github.event.inputs.target_image }}" >> $GITHUB_OUTPUT
+        else
+          echo "image=nginx:latest" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Determine ports
+      id: ports
+      run: |
+        if [ "${{ github.event.inputs.ports }}" != "" ]; then
+          echo "ports=${{ github.event.inputs.ports }}" >> $GITHUB_OUTPUT
+        else
+          echo "ports=80" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run security scan
+      id: scan
+      run: |
+        docker run --rm \
+          -v $(pwd)/results:/app/results \
+          --network host \
+          dynamic-analysis-agent:latest \
+          python main.py \
+          --image ${{ steps.target.outputs.image }} \
+          --port ${{ steps.ports.outputs.ports }} \
+          --output-format json \
+          --output-file results/scan-results.json
+
+    - name: Upload scan results
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-scan-results-${{ github.run_number }}
+        path: results/
+        retention-days: 30
+
+    - name: Generate security report
+      run: |
+        if [ -f results/scan-results.json ]; then
+          echo "## Security Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Target:** ${{ steps.target.outputs.image }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Ports:** ${{ steps.ports.outputs.ports }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Scan Time:** $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Extract summary from JSON (this would need to be adapted based on actual JSON structure)
+          if command -v jq &> /dev/null; then
+            CRITICAL=$(jq '.vulnerabilities | map(select(.severity == "CRITICAL")) | length' results/scan-results.json 2>/dev/null || echo "0")
+            HIGH=$(jq '.vulnerabilities | map(select(.severity == "HIGH")) | length' results/scan-results.json 2>/dev/null || echo "0")
+            MEDIUM=$(jq '.vulnerabilities | map(select(.severity == "MEDIUM")) | length' results/scan-results.json 2>/dev/null || echo "0")
+            LOW=$(jq '.vulnerabilities | map(select(.severity == "LOW")) | length' results/scan-results.json 2>/dev/null || echo "0")
+
+            echo "### Vulnerability Summary" >> $GITHUB_STEP_SUMMARY
+            echo "- **Critical:** ${CRITICAL}" >> $GITHUB_STEP_SUMMARY
+            echo "- **High:** ${HIGH}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Medium:** ${MEDIUM}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Low:** ${LOW}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Install jq to get detailed vulnerability counts" >> $GITHUB_STEP_SUMMARY
+          fi
+        else
+          echo "No scan results found" >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Fail on critical vulnerabilities
+      if: github.event.inputs.fail_on_critical == 'true' || github.event_name != 'workflow_dispatch'
+      run: |
+        if [ -f results/scan-results.json ] && command -v jq &> /dev/null; then
+          CRITICAL_COUNT=$(jq '.vulnerabilities | map(select(.severity == "CRITICAL")) | length' results/scan-results.json 2>/dev/null || echo "0")
+          if [ "$CRITICAL_COUNT" -gt 0 ]; then
+            echo "❌ Found $CRITICAL_COUNT critical vulnerabilities. Failing build."
+            exit 1
+          fi
+        fi
+
+  cleanup:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: security-scan
+
+    steps:
+    - name: Clean up Docker images
+      run: |
+        docker image prune -f
+        docker system prune -f

@@ -1,0 +1,76 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dynamic-analysis-agent
+  namespace: argocd
+  labels:
+    app: dynamic-analysis-agent
+spec:
+  project: security
+  source:
+    repoURL: https://github.com/disruptiq/dynamic-analysis-agent
+    targetRevision: HEAD
+    path: helm/dynamic-analysis-agent
+    helm:
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: image.tag
+          value: latest
+        - name: scanConfig.targetImage
+          value: nginx:latest
+        - name: scanConfig.targetPorts
+          value: "80"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: security
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  revisionHistoryLimit: 10
+
+---
+# ArgoCD Project for security tools
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: security
+  namespace: argocd
+  labels:
+    app: dynamic-analysis-agent
+spec:
+  description: Security scanning tools and applications
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: security
+      server: https://kubernetes.default.svc
+    - namespace: kube-system
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  orphanedResources:
+    warn: false
+  roles:
+    - name: security-admin
+      description: Admin access to security applications
+      policies:
+        - p, proj:security:security-admin, applications, *, security/*, allow
+      groups:
+        - security-team

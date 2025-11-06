@@ -1,0 +1,219 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'TARGET_IMAGE', defaultValue: 'nginx:latest', description: 'Docker image to scan')
+        string(name: 'TARGET_PORTS', defaultValue: '80', description: 'Ports to scan (comma-separated)')
+        choice(name: 'OUTPUT_FORMAT', choices: ['json', 'html', 'pdf', 'csv'], description: 'Output format for results')
+        booleanParam(name: 'FAIL_ON_CRITICAL', defaultValue: true, description: 'Fail build on critical vulnerabilities')
+        booleanParam(name: 'FAIL_ON_HIGH', defaultValue: false, description: 'Fail build on high vulnerabilities')
+    }
+
+    environment {
+        SCANNER_IMAGE = 'dynamic-analysis-agent:latest'
+        SCAN_RESULTS_DIR = 'results'
+        DOCKER_BUILDKIT = '1'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Scanner Image') {
+            steps {
+                script {
+                    docker.build(SCANNER_IMAGE, '-f Dockerfile .')
+                }
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                script {
+                    // Create results directory
+                    sh "mkdir -p ${SCAN_RESULTS_DIR}"
+
+                    // Run security scan
+                    docker.image(SCANNER_IMAGE).inside("--network host -v \${PWD}/${SCAN_RESULTS_DIR}:/app/results") {
+                        sh """
+                            python main.py \\
+                                --image ${params.TARGET_IMAGE} \\
+                                --port ${params.TARGET_PORTS} \\
+                                --output-format ${params.OUTPUT_FORMAT} \\
+                                --output-file results/scan-results.${params.OUTPUT_FORMAT}
+                        """
+                    }
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: "${SCAN_RESULTS_DIR}/**", allowEmptyArchive: true
+                    publishHTML(target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: SCAN_RESULTS_DIR,
+                        reportFiles: 'scan-results.html',
+                        reportName: 'Security Scan Report'
+                    ])
+                }
+            }
+        }
+
+        stage('Analyze Results') {
+            steps {
+                script {
+                    def resultsFile = "${SCAN_RESULTS_DIR}/scan-results.json"
+
+                    if (fileExists(resultsFile)) {
+                        def scanResults = readJSON file: resultsFile
+
+                        // Extract vulnerability counts
+                        def criticalCount = 0
+                        def highCount = 0
+                        def mediumCount = 0
+                        def lowCount = 0
+
+                        if (scanResults.vulnerabilities) {
+                            scanResults.vulnerabilities.each { vuln ->
+                                switch(vuln.severity) {
+                                    case 'CRITICAL':
+                                        criticalCount++
+                                        break
+                                    case 'HIGH':
+                                        highCount++
+                                        break
+                                    case 'MEDIUM':
+                                        mediumCount++
+                                        break
+                                    case 'LOW':
+                                        lowCount++
+                                        break
+                                }
+                            }
+                        }
+
+                        // Update build description
+                        currentBuild.description = """
+                            Target: ${params.TARGET_IMAGE}<br/>
+                            Critical: ${criticalCount}, High: ${highCount}, Medium: ${mediumCount}, Low: ${lowCount}
+                        """
+
+                        // Set build result based on findings
+                        if (params.FAIL_ON_CRITICAL && criticalCount > 0) {
+                            currentBuild.result = 'FAILURE'
+                            error("Security scan failed: Found ${criticalCount} critical vulnerabilities")
+                        } else if (params.FAIL_ON_HIGH && highCount > 0) {
+                            currentBuild.result = 'FAILURE'
+                            error("Security scan failed: Found ${highCount} high vulnerabilities")
+                        }
+
+                        // Add test results for Jenkins
+                        writeFile file: "${SCAN_RESULTS_DIR}/test-results.xml",
+                            text: generateTestResultsXML(criticalCount, highCount, mediumCount, lowCount)
+
+                    } else {
+                        echo "No scan results file found"
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
+            }
+            post {
+                always {
+                    junit allowEmptyResults: true, testResults: "${SCAN_RESULTS_DIR}/test-results.xml"
+                }
+            }
+        }
+
+        stage('Generate Report') {
+            steps {
+                script {
+                    def reportContent = """
+# Security Scan Report
+
+**Build:** ${env.BUILD_NUMBER}
+**Job:** ${env.JOB_NAME}
+**Target:** ${params.TARGET_IMAGE}
+**Ports:** ${params.TARGET_PORTS}
+**Scan Time:** ${new Date()}
+
+## Scan Configuration
+- Output Format: ${params.OUTPUT_FORMAT}
+- Fail on Critical: ${params.FAIL_ON_CRITICAL}
+- Fail on High: ${params.FAIL_ON_HIGH}
+
+## Results
+See attached scan results file for detailed findings.
+"""
+
+                    writeFile file: "${SCAN_RESULTS_DIR}/README.md", text: reportContent
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up Docker images
+            sh 'docker image prune -f || true'
+            sh 'docker system prune -f || true'
+
+            // Send notifications (optional)
+            script {
+                def color = currentBuild.result == 'SUCCESS' ? 'good' :
+                           currentBuild.result == 'FAILURE' ? 'danger' : 'warning'
+
+                // Slack notification example
+                /*
+                slackSend(
+                    color: color,
+                    message: "Security Scan ${currentBuild.result}: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+                )
+                */
+            }
+        }
+
+        success {
+            echo 'Security scan completed successfully'
+        }
+
+        failure {
+            echo 'Security scan failed due to critical findings'
+        }
+
+        unstable {
+            echo 'Security scan completed with warnings'
+        }
+    }
+}
+
+// Helper function to generate JUnit XML for Jenkins
+def generateTestResultsXML(criticalCount, highCount, mediumCount, lowCount) {
+    def totalTests = criticalCount + highCount + mediumCount + lowCount
+    def failures = (criticalCount > 0 ? 1 : 0) + (highCount > 0 ? 1 : 0)
+
+    return """<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="Security Scan" tests="${totalTests}" failures="${failures}" errors="0" skipped="0">
+        <testcase name="Critical Vulnerabilities" classname="SecurityScan">
+            <failure message="Found ${criticalCount} critical vulnerabilities">
+                Critical vulnerabilities detected
+            </failure>
+        </testcase>
+        <testcase name="High Vulnerabilities" classname="SecurityScan">
+            <failure message="Found ${highCount} high vulnerabilities">
+                High vulnerabilities detected
+            </failure>
+        </testcase>
+        <testcase name="Medium Vulnerabilities" classname="SecurityScan">
+            <system-out>Found ${mediumCount} medium vulnerabilities</system-out>
+        </testcase>
+        <testcase name="Low Vulnerabilities" classname="SecurityScan">
+            <system-out>Found ${lowCount} low vulnerabilities</system-out>
+        </testcase>
+    </testsuite>
+</testsuites>"""
+}

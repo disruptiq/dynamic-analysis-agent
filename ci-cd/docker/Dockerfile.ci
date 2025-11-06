@@ -1,0 +1,52 @@
+# Optimized Dockerfile for CI/CD environments
+# This is a lighter version of the main Dockerfile optimized for faster builds and smaller size
+
+FROM python:3.9-slim
+
+# Install system dependencies (minimal set for CI)
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    openjdk-11-jre-headless \
+    nmap \
+    nikto \
+    sqlmap \
+    tcpdump \
+    tshark \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Install OWASP ZAP (lightweight version for CI)
+RUN wget https://github.com/zaproxy/zaproxy/releases/download/v2.12.0/ZAP_2.12.0_Linux.tar.gz \
+    && tar -xzf ZAP_2.12.0_Linux.tar.gz \
+    && mv ZAP_2.12.0 /opt/zap \
+    && ln -s /opt/zap/zap.sh /usr/local/bin/zap.sh \
+    && rm ZAP_2.12.0_Linux.tar.gz
+
+# Install essential Kali tools for CI
+RUN apt-get update && apt-get install -y \
+    hydra \
+    wpscan \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install additional tools
+RUN pip install \
+    requests \
+    beautifulsoup4 \
+    lxml
+
+# Set up application
+WORKDIR /app
+COPY src/ /app/src/
+COPY main.py /app/
+COPY config.yaml /app/
+
+# Create non-root user
+RUN useradd -m -s /bin/bash scanner && chown -R scanner:scanner /app
+USER scanner
+
+# Default command for CI
+CMD ["python", "main.py", "--help"]

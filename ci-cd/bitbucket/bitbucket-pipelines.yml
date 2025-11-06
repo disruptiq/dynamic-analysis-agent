@@ -1,0 +1,275 @@
+image: atlassian/default-image:3
+
+pipelines:
+  default:
+    - step:
+        name: "Security Scan"
+        services:
+          - docker
+        script:
+          - export DOCKER_BUILDKIT=1
+          - mkdir -p results
+
+          # Build the security scanner
+          - docker build -t dynamic-analysis-agent:latest -f Dockerfile .
+
+          # Set default values if not provided
+          - TARGET_IMAGE=${TARGET_IMAGE:-nginx:latest}
+          - TARGET_PORTS=${TARGET_PORTS:-80}
+
+          # Run security scan
+          - |
+            docker run --rm \
+              -v $(pwd)/results:/app/results \
+              --network host \
+              dynamic-analysis-agent:latest \
+              python main.py \
+              --image $TARGET_IMAGE \
+              --port $TARGET_PORTS \
+              --output-format json \
+              --output-file results/scan-results.json
+
+          # Analyze results
+          - |
+            if [ -f "results/scan-results.json" ]; then
+              apt-get update && apt-get install -y jq
+
+              CRITICAL=$(jq '.vulnerabilities | map(select(.severity == "CRITICAL")) | length' results/scan-results.json 2>/dev/null || echo "0")
+              HIGH=$(jq '.vulnerabilities | map(select(.severity == "HIGH")) | length' results/scan-results.json 2>/dev/null || echo "0")
+              MEDIUM=$(jq '.vulnerabilities | map(select(.severity == "MEDIUM")) | length' results/scan-results.json 2>/dev/null || echo "0")
+              LOW=$(jq '.vulnerabilities | map(select(.severity == "LOW")) | length' results/scan-results.json 2>/dev/null || echo "0")
+
+              echo "Vulnerability Summary:"
+              echo "  Critical: $CRITICAL"
+              echo "  High: $HIGH"
+              echo "  Medium: $MEDIUM"
+              echo "  Low: $LOW"
+
+              # Generate report
+              echo "# Security Scan Report" > results/security-report.md
+              echo "" >> results/security-report.md
+              echo "**Bitbucket Pipeline:** $BITBUCKET_PIPELINE_UUID" >> results/security-report.md
+              echo "**Target:** $TARGET_IMAGE" >> results/security-report.md
+              echo "**Ports:** $TARGET_PORTS" >> results/security-report.md
+              echo "**Scan Time:** $(date)" >> results/security-report.md
+              echo "" >> results/security-report.md
+              echo "## Vulnerability Summary" >> results/security-report.md
+              echo "- Critical: $CRITICAL" >> results/security-report.md
+              echo "- High: $HIGH" >> results/security-report.md
+              echo "- Medium: $MEDIUM" >> results/security-report.md
+              echo "- Low: $LOW" >> results/security-report.md
+
+              # Fail on critical vulnerabilities
+              if [ "$CRITICAL" -gt 0 ]; then
+                echo "❌ Build failed: Found $CRITICAL critical vulnerabilities"
+                exit 1
+              fi
+            else
+              echo "No scan results found"
+              exit 1
+            fi
+
+        artifacts:
+          - results/**
+
+  branches:
+    main:
+      - step:
+          name: "Comprehensive Security Scan"
+          services:
+            - docker
+          script:
+            - export DOCKER_BUILDKIT=1
+            - mkdir -p results
+
+            # Build scanner
+            - docker build -t dynamic-analysis-agent:latest -f Dockerfile .
+
+            # Multi-target scanning
+            - |
+              targets="nginx:latest:80 httpd:latest:80 redis:latest:6379"
+              for target in $targets; do
+                image=$(echo $target | cut -d: -f1)
+                ports=$(echo $target | cut -d: -f2)
+
+                echo "Scanning $image on port $ports..."
+
+                docker run --rm \
+                  -v $(pwd)/results:/app/results \
+                  --network host \
+                  dynamic-analysis-agent:latest \
+                  python main.py \
+                  --image $image \
+                  --port $ports \
+                  --output-format json \
+                  --output-file results/scan-${image//:/-}.json
+              done
+
+            # Analyze all results
+            - |
+              apt-get update && apt-get install -y jq
+
+              total_critical=0
+              total_high=0
+
+              for result_file in results/scan-*.json; do
+                if [ -f "$result_file" ]; then
+                  critical=$(jq '.vulnerabilities | map(select(.severity == "CRITICAL")) | length' "$result_file" 2>/dev/null || echo "0")
+                  high=$(jq '.vulnerabilities | map(select(.severity == "HIGH")) | length' "$result_file" 2>/dev/null || echo "0")
+
+                  total_critical=$((total_critical + critical))
+                  total_high=$((total_high + high))
+                fi
+              done
+
+              echo "Total Critical: $total_critical"
+              echo "Total High: $total_high"
+
+              if [ "$total_critical" -gt 0 ]; then
+                echo "❌ Build failed: Found critical vulnerabilities across scanned targets"
+                exit 1
+              fi
+
+          artifacts:
+            - results/**
+
+  pull-requests:
+    '**':
+      - step:
+          name: "PR Security Scan"
+          services:
+            - docker
+          script:
+            - export DOCKER_BUILDKIT=1
+            - mkdir -p results
+
+            # Build scanner
+            - docker build -t dynamic-analysis-agent:latest -f Dockerfile .
+
+            # Scan default target or use PR-specific target
+            - TARGET_IMAGE=${TARGET_IMAGE:-nginx:latest}
+            - TARGET_PORTS=${TARGET_PORTS:-80}
+
+            - |
+              docker run --rm \
+                -v $(pwd)/results:/app/results \
+                --network host \
+                dynamic-analysis-agent:latest \
+                python main.py \
+                --image $TARGET_IMAGE \
+                --port $TARGET_PORTS \
+                --output-format html \
+                --output-file results/pr-scan-results.html
+
+            # Basic validation - don't fail PRs on findings, just report
+            - |
+              if [ -f "results/pr-scan-results.html" ]; then
+                echo "PR security scan completed. Results available in artifacts."
+              else
+                echo "PR scan failed to generate results"
+                exit 1
+              fi
+
+          artifacts:
+            - results/**
+
+  custom:
+    nightly-security-scan:
+      - step:
+          name: "Nightly Security Scan"
+          services:
+            - docker
+          script:
+            - export DOCKER_BUILDKIT=1
+            - mkdir -p results
+
+            # Build scanner
+            - docker build -t dynamic-analysis-agent:latest -f Dockerfile .
+
+            # Comprehensive nightly scan
+            - |
+              targets="nginx:latest:80,443 httpd:latest:80,443 redis:latest:6379 postgres:latest:5432"
+              for target in $targets; do
+                image=$(echo $target | cut -d: -f1)
+                ports=$(echo $target | cut -d: -f2)
+
+                echo "Nightly scanning $image on ports $ports..."
+
+                docker run --rm \
+                  -v $(pwd)/results:/app/results \
+                  --network host \
+                  dynamic-analysis-agent:latest \
+                  python main.py \
+                  --image $image \
+                  --port $ports \
+                  --output-format json \
+                  --output-file results/nightly-${image//:/-}.json
+              done
+
+            # Generate nightly report
+            - |
+              apt-get update && apt-get install -y jq
+
+              echo "# Nightly Security Scan Report" > results/nightly-report.md
+              echo "" >> results/nightly-report.md
+              echo "**Date:** $(date)" >> results/nightly-report.md
+              echo "**Pipeline:** $BITBUCKET_PIPELINE_UUID" >> results/nightly-report.md
+              echo "" >> results/nightly-report.md
+
+              total_critical=0
+              total_high=0
+              total_medium=0
+              total_low=0
+
+              for result_file in results/nightly-*.json; do
+                if [ -f "$result_file" ]; then
+                  image_name=$(basename "$result_file" .json | sed 's/nightly-//')
+
+                  critical=$(jq '.vulnerabilities | map(select(.severity == "CRITICAL")) | length' "$result_file" 2>/dev/null || echo "0")
+                  high=$(jq '.vulnerabilities | map(select(.severity == "HIGH")) | length' "$result_file" 2>/dev/null || echo "0")
+                  medium=$(jq '.vulnerabilities | map(select(.severity == "MEDIUM")) | length' "$result_file" 2>/dev/null || echo "0")
+                  low=$(jq '.vulnerabilities | map(select(.severity == "LOW")) | length' "$result_file" 2>/dev/null || echo "0")
+
+                  echo "## $image_name" >> results/nightly-report.md
+                  echo "- Critical: $critical" >> results/nightly-report.md
+                  echo "- High: $high" >> results/nightly-report.md
+                  echo "- Medium: $medium" >> results/nightly-report.md
+                  echo "- Low: $low" >> results/nightly-report.md
+                  echo "" >> results/nightly-report.md
+
+                  total_critical=$((total_critical + critical))
+                  total_high=$((total_high + high))
+                  total_medium=$((total_medium + medium))
+                  total_low=$((total_low + low))
+                fi
+              done
+
+              echo "## Summary" >> results/nightly-report.md
+              echo "- **Total Critical:** $total_critical" >> results/nightly-report.md
+              echo "- **Total High:** $total_high" >> results/nightly-report.md
+              echo "- **Total Medium:** $total_medium" >> results/nightly-report.md
+              echo "- **Total Low:** $total_low" >> results/nightly-report.md
+
+          artifacts:
+            - results/**
+
+# Global definitions
+definitions:
+  services:
+    docker:
+      memory: 2048
+
+  caches:
+    docker: docker
+
+# Environment variables
+options:
+  docker: true
+  max-time: 30  # 30 minutes timeout
+
+# Scheduled pipelines (requires Premium plan)
+# schedules:
+#   nightly-scan:
+#     cron: "0 2 * * *"
+#     branches:
+#       - main

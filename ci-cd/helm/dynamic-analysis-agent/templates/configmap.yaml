@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "dynamic-analysis-agent.fullname" . }}-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "dynamic-analysis-agent.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    {{- toYaml .Values.config | nindent 4 }}
